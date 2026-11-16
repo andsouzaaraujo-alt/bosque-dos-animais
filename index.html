@@ -276,9 +276,9 @@ const VOICE = false; // voz desligada por enquanto (true liga de novo)
 document.documentElement.classList.toggle("novoice",!VOICE);
 document.documentElement.lang="pt-BR";
 const A = "assets/";
-// Ajudante de escrita: aparece ao lado dos campos de texto (não é avatar)
+// Ajudante Lápis (não é avatar): por enquanto só aparece na tela inicial
 const PENCIL = A+"ajudantes/lapis.webp";
-const writeBox = (input, big) => `<div class="write ${big?"big":""}"><img class="pencil" src="${PENCIL}" alt="" aria-hidden="true">${input}</div>`;
+const writeBox = (input, big) => `<div class="write ${big?"big":""}">${input}</div>`; // lápis tirado dos campos por enquanto
 const AVATARS = [
   // Krau e Leozinho ficam nas pontas (são parecidos); os dois gatos não ficam lado a lado
   {id:"gato",   name:"Krau", img:A+"avatares/gato.webp"},
