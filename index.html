@@ -147,7 +147,7 @@ img{max-width:100%}
 /* avatar picker */
 .avs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 6px;--cols:3}
 .avs>.av{flex:0 0 calc((100% - (var(--cols) - 1) * 6px) / var(--cols));box-sizing:border-box;min-width:0}
-@media (min-width:1000px){.avs{--cols:5}}
+@media (min-width:1000px){.avs{--cols:6}}
 /* avatares soltos, sem caixa: sombra no chão + nome em etiqueta; selecionado = chão roxo + etiqueta roxa */
 .av{position:relative;padding:4px 0;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--display);font-size:clamp(15px,4vw,19px);font-weight:700}
 .av::before{content:"";position:absolute;left:18%;right:18%;top:calc(4px + clamp(92px,28vw,140px) - 14px);height:16px;border-radius:50%;background:rgba(43,35,80,.12);transition:background .2s}
@@ -239,8 +239,8 @@ img{max-width:100%}
 /* tela inicial: só os bichinhos (gato e leão nas pontas) */
 .pets{display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:4px 0;max-width:100%}
 .pets img{height:clamp(104px,27vw,190px);width:auto;margin:0 clamp(-12px,-1.2vw,-4px);filter:drop-shadow(0 8px 6px rgba(43,35,80,.16));animation:bob 2.6s ease-in-out infinite}
-@media (min-width:600px){.pets{flex-wrap:nowrap}.pets img{height:min(190px,calc((100vw - 220px) / 5))}}
-.pets img:nth-child(2){animation-delay:.3s}.pets img:nth-child(3){animation-delay:.6s}.pets img:nth-child(4){animation-delay:.9s}.pets img:nth-child(5){animation-delay:1.2s}
+@media (min-width:600px){.pets{flex-wrap:nowrap}.pets img{height:min(180px,calc((100vw - 220px) / 6))}}
+.pets img:nth-child(2){animation-delay:.3s}.pets img:nth-child(3){animation-delay:.6s}.pets img:nth-child(4){animation-delay:.9s}.pets img:nth-child(5){animation-delay:1.2s}.pets img:nth-child(6){animation-delay:1.5s}
 .tagline{font-size:clamp(26px,5vw,40px);color:var(--ink);max-width:20ch;margin-top:10px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:600px){
@@ -274,12 +274,13 @@ const A = "assets/";
 const PENCIL = A+"ajudantes/lapis.webp";
 const writeBox = (input, big) => `<div class="write ${big?"big":""}"><img class="pencil" src="${PENCIL}" alt="" aria-hidden="true">${input}</div>`;
 const AVATARS = [
-  // gato e leão ficam nas pontas (são parecidos)
-  {id:"gato",   name:"Gatinho", img:A+"avatares/gato.webp"},
-  {id:"coelho", name:"Coelho", img:A+"avatares/coelho.webp"},
-  {id:"sagui",  name:"Sagui", img:A+"avatares/sagui.webp"},
-  {id:"cachorro", name:"Cachorrinho", img:A+"avatares/cachorro.webp"},
-  {id:"leao",   name:"Leãozinho", img:A+"avatares/leao.webp"},
+  // Krau e Leozinho ficam nas pontas (são parecidos); os dois gatos não ficam lado a lado
+  {id:"gato",   name:"Krau", img:A+"avatares/gato.webp"},
+  {id:"coelho", name:"Easter", img:A+"avatares/coelho.webp"},
+  {id:"gat",    name:"Gat", img:A+"avatares/gat.webp"},
+  {id:"sagui",  name:"Pelucinha", img:A+"avatares/sagui.webp"},
+  {id:"cachorro", name:"Floquinho", img:A+"avatares/cachorro.webp"},
+  {id:"leao",   name:"Leozinho", img:A+"avatares/leao.webp"},
 ];
 // Professores: Duda e Gabi são reais; os outros três são temporários até chegarem as artes.
 const SUBJ = {

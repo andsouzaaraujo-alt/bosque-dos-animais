@@ -7,7 +7,7 @@ Por **Eduarda Normanha**.
 ## Como funciona
 
 - **Abertura:** a placa do Bosque dos Animais com o Gabi e a Duda.
-- **Avatar:** a criança escolhe entre gatinho, coelho, sagui, cachorrinho e leãozinho.
+- **Avatar:** a criança escolhe entre Krau (gato laranja), Easter (coelho), Gat (gatinho cinza), Pelucinha (sagui), Floquinho (cachorro) e Leozinho (leão).
 - **Quiz inicial:**
   - idade (que define a dificuldade), ano escolar e como gosta de aprender;
   - matéria favorita, matéria mais desafiadora e o motivo da dificuldade;
