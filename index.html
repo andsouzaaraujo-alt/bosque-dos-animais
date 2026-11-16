@@ -241,7 +241,12 @@ img{max-width:100%}
 .pets img{height:clamp(104px,27vw,190px);width:auto;margin:0 clamp(-12px,-1.2vw,-4px);filter:drop-shadow(0 8px 6px rgba(43,35,80,.16));animation:bob 2.6s ease-in-out infinite}
 @media (min-width:600px){.pets{flex-wrap:nowrap}.pets img{height:min(180px,calc((100vw - 220px) / 6))}}
 .pets img:nth-child(2){animation-delay:.3s}.pets img:nth-child(3){animation-delay:.6s}.pets img:nth-child(4){animation-delay:.9s}.pets img:nth-child(5){animation-delay:1.2s}.pets img:nth-child(6){animation-delay:1.5s}
-.tagline{font-size:clamp(26px,5vw,40px);color:var(--ink);max-width:20ch;margin-top:10px}
+.tagline{font-size:clamp(22px,4.4vw,34px);color:var(--ink);max-width:18ch;text-align:left}
+/* tela inicial: o Lápis falando, balão saindo da cabeça dele */
+.pencil-talk{display:flex;align-items:flex-start;justify-content:center;gap:clamp(10px,3vw,24px);max-width:640px}
+.pencil-big{height:clamp(220px,min(46vh,62vw),360px);width:auto;flex:none;filter:drop-shadow(0 10px 8px rgba(43,35,80,.18));animation:bob 3s ease-in-out infinite;transform-origin:50% 90%}
+.pencil-talk .bubble{margin:clamp(10px,3vh,30px) 0 0;padding:clamp(16px,3vw,26px) clamp(18px,3.4vw,30px);animation:popIn .5s .2s cubic-bezier(.3,1.6,.5,1) backwards}
+.pencil-talk .bubble::before{bottom:auto;top:clamp(24px,5vw,40px)}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:600px){
   body{--m:0px}
@@ -471,8 +476,8 @@ function Splash(){
 }
 function Start(){
   app.innerHTML=`<div class="hero fill">
-    <div class="pets">${AVATARS.map(a=>`<img src="${a.img}" alt="${esc(a.name)}">`).join("")}</div>
-    <h1 class="tagline">Escolha seu bichinho, conheça seus professores e aprenda brincando!</h1>
+    <div class="pencil-talk"><img class="pencil-big" src="${PENCIL}" alt="Lápis, o ajudante">
+      <div class="bubble"><h1 class="tagline">Escolha seu bichinho, conheça seus professores e aprenda brincando!</h1></div></div>
     <div class="row" style="justify-content:center;margin-top:8px">
       ${S.quizDone?`<button class="btn" data-go="map">Continuar ▶</button><button class="btn ghost" data-go="avatar">Começar de novo</button>`:`<button class="btn" data-go="avatar">Começar! ▶</button>`}
     </div></div>`;
