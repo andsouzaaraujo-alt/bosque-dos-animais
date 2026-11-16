@@ -144,14 +144,18 @@ img{max-width:100%}
 .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 
 /* avatar picker */
-.avs{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;--cols:2}
-.avs>.av{flex:0 0 calc((100% - (var(--cols) - 1) * 14px) / var(--cols));box-sizing:border-box;min-width:0}
-@media (min-width:640px){.avs{--cols:3}}
+.avs{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 6px;--cols:3}
+.avs>.av{flex:0 0 calc((100% - (var(--cols) - 1) * 6px) / var(--cols));box-sizing:border-box;min-width:0}
 @media (min-width:1000px){.avs{--cols:5}}
-.av{background:#fff;border-radius:24px;padding:12px;box-shadow:0 6px 0 var(--line);border:4px solid transparent;display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--display);font-size:20px}
-.av img{height:110px;width:auto;object-fit:contain;transition:transform .2s}
-.av.sel{border-color:var(--purple);background:#F4ECFF}
-.av.sel img{transform:scale(1.1) rotate(-4deg)}
+/* avatares soltos, sem caixa: sombra no chão + nome em etiqueta; selecionado = chão roxo + etiqueta roxa */
+.av{position:relative;padding:4px 0;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--display);font-size:clamp(15px,4vw,19px);font-weight:700}
+.av::before{content:"";position:absolute;left:18%;right:18%;top:calc(4px + clamp(92px,28vw,140px) - 14px);height:16px;border-radius:50%;background:rgba(43,35,80,.12);transition:background .2s}
+.av img{position:relative;height:clamp(92px,28vw,140px);width:auto;object-fit:contain;transition:transform .2s}
+.av .nm{padding:3px 12px;border-radius:999px;line-height:1.3}
+.av:hover img{transform:translateY(-3px)}
+.av.sel::before{background:var(--purple);opacity:.45}
+.av.sel img{transform:scale(1.08) translateY(-4px)}
+.av.sel .nm{background:var(--purple);color:#fff}
 .field{display:flex;flex-direction:column;gap:6px;max-width:420px}
 .field input{font:inherit;font-size:22px;padding:14px 18px;border-radius:18px;border:3px solid var(--line);background:#fff;color:var(--ink);min-width:0}
 
@@ -238,9 +242,13 @@ img{max-width:100%}
 .pets img:nth-child(2){animation-delay:.3s}.pets img:nth-child(3){animation-delay:.6s}.pets img:nth-child(4){animation-delay:.9s}.pets img:nth-child(5){animation-delay:1.2s}
 .tagline{font-size:clamp(26px,5vw,40px);color:var(--ink);max-width:20ch;margin-top:10px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:600px){
+  body{--m:0px}
+  body::after{display:none}
+}
 @media (max-width:560px){
-  .talk .prof{height:110px}
-  .ph{width:84px}
+  .talk .prof{height:clamp(140px,40vw,170px)}
+  .ph{width:110px}
   .bubble{font-size:19px}
   .room .me{height:190px}
   .room .shelf{left:20px;top:130px;justify-content:center}
@@ -473,7 +481,7 @@ function Avatar(){
   if(screen==="avatar"&&S.quizDone&&!pickAv){/* restarting */}
   pickAv=pickAv||S.avatar;
   app.innerHTML=`${talk("mat","Primeiro, escolha quem você quer ser!","Duda")}
-  <div class="avs">${AVATARS.map(a=>`<button class="av ${pickAv===a.id?"sel":""}" data-av="${a.id}"><img src="${a.img}" alt="">${a.name}</button>`).join("")}</div>
+  <div class="avs">${AVATARS.map(a=>`<button class="av ${pickAv===a.id?"sel":""}" data-av="${a.id}"><img src="${a.img}" alt=""><span class="nm">${a.name}</span></button>`).join("")}</div>
   <div class="field"><label for="nome">Qual é o seu nome? <span style="color:var(--muted)">(um adulto pode ajudar)</span></label>${writeBox(`<input id="nome" maxlength="20" autocomplete="off" value="${esc(S.name)}" placeholder="Seu nome">`,true)}</div>
   <div class="foot"><button class="link" data-go="start">← Voltar</button><button class="btn" id="avok" ${pickAv?"":"disabled"}>Continuar ▶</button></div>`;
   app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{pickAv=b.dataset.av;const a=AVATARS.find(x=>x.id===pickAv);speak([[a.name,"pt-BR"]]);app.querySelectorAll(".av").forEach(x=>x.classList.toggle("sel",x===b));$("#avok").disabled=false});
@@ -728,7 +736,7 @@ function Casa(){
     <h2>A casa de ${esc(S.name||a.name)}</h2>
     <div class="room"><div class="win"></div><div class="shelf">${shelf.map(e=>`<span>${e}</span>`).join("")||`<span style="font-size:16px;padding:10px 14px">Complete níveis para ganhar coisas para sua casa!</span>`}</div><div class="floor">${floor.map(e=>`<span>${e}</span>`).join("")}</div><div class="rug"></div><img class="me" id="me" src="${a.img}" alt="${esc(a.name)}"></div>
     <h3>Trocar de bichinho</h3>
-    <div class="avs">${AVATARS.map(x=>`<button class="av ${S.avatar===x.id?"sel":""}" data-sw="${x.id}"><img src="${x.img}" alt="">${x.name}</button>`).join("")}</div>
+    <div class="avs">${AVATARS.map(x=>`<button class="av ${S.avatar===x.id?"sel":""}" data-sw="${x.id}"><img src="${x.img}" alt=""><span class="nm">${x.name}</span></button>`).join("")}</div>
     <div class="foot"><button class="btn" data-go="map">← Voltar ao mapa</button><button class="link" data-go="pais">Área dos pais 🔒</button></div>`;
   $("#me").onclick=e=>{e.target.classList.remove("jump");void e.target.offsetWidth;e.target.classList.add("jump");speak([["Oi, "+(S.name||a.name)+"!","pt-BR"]])};
   app.querySelectorAll("[data-sw]").forEach(b=>b.onclick=()=>{S.avatar=b.dataset.sw;save();Casa()});
