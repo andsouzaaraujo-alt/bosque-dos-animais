@@ -55,8 +55,8 @@ img{max-width:100%}
 .btn.ghost:active{transform:scale(.96)}
 .foot .btn{min-width:min(128px,38vw)}
 .skiprow{display:flex;justify-content:center;margin-top:-6px}
-.btn.good{background:var(--ink);border-color:var(--ink)}
-.btn.bad{background:var(--ink);border-color:var(--ink)}
+.btn.good{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.bad{background:var(--ink);border-color:var(--ink);color:#fff}
 .link{font-weight:600;color:var(--ink);text-decoration:underline;text-underline-offset:3px;padding:10px}
 .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px}
@@ -73,13 +73,16 @@ img{max-width:100%}
 @keyframes bob{50%{transform:translateY(-8px)}}
 
 /* Personagem + fala. --ph = altura do personagem, --my = altura da boca (fração da imagem).
-   A fala é uma "tag" em pílula na cor candy de quem fala, sem setinha, alinhada perto da boca. */
-.talk{--ph:clamp(110px,16vw,160px);--my:.4;display:flex;align-items:flex-start;gap:clamp(12px,2vw,18px)}
+   A fala é um balão de mensagem, como no WhatsApp: azul com texto branco, cantos arredondados e
+   o canto do lado de quem fala mais "quadradinho". A largura acompanha a quantidade de texto. */
+.talk{--ph:clamp(110px,16vw,160px);--my:.4;display:flex;align-items:flex-start;gap:clamp(10px,2vw,16px)}
 .talk .prof{height:var(--ph);width:auto;flex:none}
 .talk .ph{height:var(--ph);width:auto;aspect-ratio:3/4;flex:none}
-.talk .bubble{margin-top:max(10px,calc(var(--ph) * var(--my) - 28px))}
-.bubble{position:relative;background:var(--wc,#fff);border-radius:26px;padding:14px 20px;text-wrap:balance;font-family:var(--body);font-weight:600;font-size:clamp(17px,2vw,20px);line-height:1.35;color:var(--ink);flex:0 1 auto;width:fit-content;max-width:min(440px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .4s cubic-bezier(.3,1.5,.5,1) backwards;transform-origin:0 50%}
-.bubble.tail-down,.bubble.tail-up{transform-origin:50% 50%}
+.talk .bubble{margin-top:max(8px,calc(var(--ph) * var(--my) - 22px))}
+.bubble{position:relative;background:#3659C2;color:#fff;border-radius:20px 20px 20px 20px;border-top-left-radius:6px;padding:11px 16px;text-wrap:balance;font-family:var(--body);font-weight:600;font-size:clamp(16px,1.8vw,18px);line-height:1.38;flex:0 1 auto;width:fit-content;max-width:min(420px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .35s cubic-bezier(.3,1.4,.5,1) backwards;transform-origin:0 0}
+.bubble.tail-down{border-top-left-radius:20px;border-bottom-left-radius:6px;transform-origin:0 100%}
+.bubble.tail-up{transform-origin:0 0}
+.bubble .tagline{color:#fff}
 @keyframes bubbleIn{from{transform:scale(.7);opacity:0}}
 .say{float:right;margin:-4px -6px 4px 8px;width:46px;height:46px;border-radius:50%;background:var(--sky2);font-size:22px}
 .ph{width:clamp(100px,18vw,160px);aspect-ratio:3/4;flex:none;border-radius:28px;display:grid;place-items:center;font-size:clamp(46px,8vw,70px);color:#fff;position:relative;box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)}
@@ -266,7 +269,7 @@ img{max-width:100%}
 .pets img{height:clamp(104px,27vw,190px);width:auto;margin:0 clamp(-12px,-1.2vw,-4px);filter:drop-shadow(0 8px 6px rgba(43,35,80,.16));animation:bob 2.6s ease-in-out infinite}
 @media (min-width:600px){.pets{flex-wrap:nowrap}.pets img{height:min(180px,calc((100vw - 220px) / 6))}}
 .pets img:nth-child(2){animation-delay:.3s}.pets img:nth-child(3){animation-delay:.6s}.pets img:nth-child(4){animation-delay:.9s}.pets img:nth-child(5){animation-delay:1.2s}.pets img:nth-child(6){animation-delay:1.5s}
-.tagline{font-size:clamp(22px,4.4vw,34px);color:var(--ink);max-width:18ch;text-align:left}
+.tagline{font-size:clamp(20px,3.6vw,28px);color:var(--ink);max-width:18ch;text-align:left;line-height:1.15}
 /* tela inicial: balão em cima, Lápis centralizado embaixo */
 .pencil-talk{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:640px}
 .pencil-big{height:clamp(150px,min(30vh,44vw),240px);width:auto;flex:none;filter:drop-shadow(0 10px 8px rgba(43,35,80,.18));animation:bob 3s ease-in-out infinite;transform-origin:50% 90%}
@@ -276,7 +279,7 @@ img{max-width:100%}
 @media (max-width:560px){
   .talk{--ph:clamp(104px,28vw,128px)}
   .ph{width:110px}
-  .bubble{font-size:17px;padding:12px 18px}
+  .bubble{font-size:16px;padding:10px 14px}
   .room .me{height:190px}
   .room .shelf{left:20px;top:130px;justify-content:center}
 }
@@ -597,7 +600,7 @@ function Splash(){
 }
 function Start(){
   app.innerHTML=`<div class="corner">${soundBtn()}</div><div class="hero fill">
-    <div class="pencil-talk"><div class="bubble tail-down" style="--wc:var(--butter)"><h1 class="tagline"><span class="tx">Escolha seu bichinho, conheça seus professores e aprenda brincando!</span></h1></div>
+    <div class="pencil-talk"><div class="bubble tail-down"><h1 class="tagline"><span class="tx">Escolha seu bichinho, conheça seus professores e aprenda brincando!</span></h1></div>
       <img class="pencil-big" src="${PENCIL}" alt="Lápis, o ajudante"></div>
     <div class="row" style="justify-content:center;margin-top:8px">
       ${S.quizDone?`<button class="btn" data-go="map">Continuar ${NX}</button><button class="btn ghost" data-go="avatar">Começar de novo</button>`:`<button class="btn" data-go="avatar">Começar! ${NX}</button>`}
@@ -752,7 +755,7 @@ function Intro(){
   if(!met){S.met=[...(S.met||[]),id];save()}
   app.innerHTML=`<div class="center fill">
     <div style="display:grid;place-items:center">${sj.prof.img?`<img src="${sj.prof.img}" alt="${esc(sj.prof.name)}" style="height:min(230px,32vh);animation:bob 3s ease-in-out infinite">`:`<div class="ph" style="background:${sj.color};width:180px;font-size:80px">${ic(id,96)}<small>professor em breve</small></div>`}</div>
-    <div class="bubble tail-up" style="margin:4px 0 0;--wc:${sj.color}"><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button><span class="tx">${esc(msg)}</span></div>
+    <div class="bubble tail-up" style="margin:4px 0 0"><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button><span class="tx">${esc(msg)}</span></div>
     <button class="btn" id="go">Vamos! ${NX}</button></div>`;
   setTimeout(()=>speak([[msg,"pt-BR"]]),300);
   $("#go").onclick=()=>go("lesson");
