@@ -72,21 +72,15 @@ img{max-width:100%}
 .crew img:nth-child(2){animation-delay:.4s}.crew img:nth-child(3){animation-delay:.8s}.crew img:nth-child(4){animation-delay:1.2s}.crew img:nth-child(5){animation-delay:1.6s}
 @keyframes bob{50%{transform:translateY(-8px)}}
 
-/* professor + bubble */
-/* Personagem + balão. --ph = altura do personagem, --my = altura da boca (fração da imagem).
-   O balão desce até a pontinha ficar na altura da boca. */
-.talk{--ph:clamp(120px,22vw,200px);--my:.4;display:flex;align-items:flex-start;gap:clamp(20px,3vw,28px)} /* espaço entre o personagem e a pontinha do balão */
-.talk .prof{height:var(--ph);width:auto;flex:none;filter:drop-shadow(0 6px 5px rgba(43,35,80,.15))}
+/* Personagem + fala. --ph = altura do personagem, --my = altura da boca (fração da imagem).
+   A fala é uma "tag" em pílula na cor candy de quem fala, sem setinha, alinhada perto da boca. */
+.talk{--ph:clamp(120px,22vw,200px);--my:.4;display:flex;align-items:flex-start;gap:clamp(12px,2vw,18px)}
+.talk .prof{height:var(--ph);width:auto;flex:none}
 .talk .ph{height:var(--ph);width:auto;aspect-ratio:3/4;flex:none}
-.talk .bubble{margin-top:max(14px,calc(var(--ph) * var(--my) - 32px))}
-/* Balão de pelúcia: borda lilás, "chão" embaixo, etiqueta com o nome de quem fala */
-.bubble{--bc:#CDB8F5;position:relative;background:#fff;border:3px solid var(--bc);border-radius:28px;padding:14px 20px;text-wrap:balance;box-shadow:0 5px 0 #E6DCFB,inset 0 -4px 0 #F7F3FF;font-family:var(--body);font-weight:600;font-size:clamp(17px,2vw,21px);line-height:1.32;color:var(--ink);flex:0 1 auto;width:fit-content;max-width:min(440px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .45s cubic-bezier(.3,1.6,.5,1) backwards;transform-origin:0 30px}
-.bubble::before{content:"";position:absolute;width:18px;height:18px;background:#fff;border:3px solid var(--bc);border-top:0;border-right:0;border-radius:0 0 0 6px;left:-12px;top:20px;transform:rotate(45deg)}
-.bubble.tail-down{transform-origin:50% 100%}
-.bubble.tail-down::before{left:50%;top:auto;bottom:-12px;transform:translateX(-50%) rotate(-45deg)}
-.bubble.tail-up{transform-origin:50% 0}
-.bubble.tail-up::before{left:50%;top:-12px;transform:translateX(-50%) rotate(135deg)}
-@keyframes bubbleIn{from{transform:scale(.6);opacity:0}}
+.talk .bubble{margin-top:max(10px,calc(var(--ph) * var(--my) - 28px))}
+.bubble{position:relative;background:var(--wc,#fff);border-radius:26px;padding:14px 20px;text-wrap:balance;font-family:var(--body);font-weight:600;font-size:clamp(17px,2vw,20px);line-height:1.35;color:var(--ink);flex:0 1 auto;width:fit-content;max-width:min(440px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .4s cubic-bezier(.3,1.5,.5,1) backwards;transform-origin:0 50%}
+.bubble.tail-down,.bubble.tail-up{transform-origin:50% 50%}
+@keyframes bubbleIn{from{transform:scale(.7);opacity:0}}
 .say{float:right;margin:-4px -6px 4px 8px;width:46px;height:46px;border-radius:50%;background:var(--sky2);font-size:22px}
 .ph{width:clamp(100px,18vw,160px);aspect-ratio:3/4;flex:none;border-radius:28px;display:grid;place-items:center;font-size:clamp(46px,8vw,70px);color:#fff;position:relative;box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)}
 .ph small{position:absolute;bottom:10px;font-size:12px;font-family:var(--body);background:rgba(255,255,255,.9);color:var(--ink);border-radius:999px;padding:2px 8px}
@@ -264,7 +258,7 @@ img{max-width:100%}
 @media (max-width:560px){
   .talk{--ph:clamp(140px,40vw,170px)}
   .ph{width:110px}
-  .bubble{font-size:17px;padding:12px 16px}
+  .bubble{font-size:17px;padding:12px 18px}
   .room .me{height:190px}
   .room .shelf{left:20px;top:130px;justify-content:center}
 }
@@ -483,7 +477,7 @@ function profArt(id,cls="prof"){
   if(p.img)return `<img class="${cls}" src="${p.img}" alt="${esc(p.name)}">`;
   return `<div class="ph" style="background:${SUBJ[id].color}" aria-label="${esc(p.name)}">${SUBJ[id].emoji}<small>em breve</small></div>`;
 }
-const talkVars=id=>`--my:${SUBJ[id].prof.mouth||.42};--wc:${SUBJ[id].tag}`;
+const talkVars=id=>`--my:${SUBJ[id].prof.mouth||.42};--wc:${SUBJ[id].color}`;
 function talk(id,text,who){
   return `<div class="talk" style="${talkVars(id)}">${profArt(id)}<div class="bubble"><button class="say" data-say="${esc(text)}" aria-label="Ouvir">🔊</button><span class="tx">${esc(text)}</span></div></div>`;
 }
@@ -518,7 +512,7 @@ function Splash(){
 }
 function Start(){
   app.innerHTML=`<div class="corner">${soundBtn()}</div><div class="hero fill">
-    <div class="pencil-talk"><div class="bubble tail-down"><h1 class="tagline"><span class="tx">Escolha seu bichinho, conheça seus professores e aprenda brincando!</span></h1></div>
+    <div class="pencil-talk"><div class="bubble tail-down" style="--wc:var(--butter)"><h1 class="tagline"><span class="tx">Escolha seu bichinho, conheça seus professores e aprenda brincando!</span></h1></div>
       <img class="pencil-big" src="${PENCIL}" alt="Lápis, o ajudante"></div>
     <div class="row" style="justify-content:center;margin-top:8px">
       ${S.quizDone?`<button class="btn" data-go="map">Continuar ▶</button><button class="btn ghost" data-go="avatar">Começar de novo</button>`:`<button class="btn" data-go="avatar">Começar! ▶</button>`}
@@ -673,7 +667,7 @@ function Intro(){
   if(!met){S.met=[...(S.met||[]),id];save()}
   app.innerHTML=`<div class="center fill">
     <div style="display:grid;place-items:center">${sj.prof.img?`<img src="${sj.prof.img}" alt="${esc(sj.prof.name)}" style="height:min(300px,40vh);animation:bob 3s ease-in-out infinite">`:`<div class="ph" style="background:${sj.color};width:180px;font-size:80px">${sj.emoji}<small>professor em breve</small></div>`}</div>
-    <div class="bubble tail-up" style="margin:4px 0 0"><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button><span class="tx">${esc(msg)}</span></div>
+    <div class="bubble tail-up" style="margin:4px 0 0;--wc:${sj.color}"><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button><span class="tx">${esc(msg)}</span></div>
     <button class="btn" id="go">Vamos! ▶</button></div>`;
   setTimeout(()=>speak([[msg,"pt-BR"]]),300);
   $("#go").onclick=()=>go("lesson");
