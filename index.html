@@ -90,13 +90,12 @@ img{max-width:100%}
 .talk .ph{height:var(--ph);width:auto;aspect-ratio:3/4;flex:none}
 .talk .bubble{margin-top:max(14px,calc(var(--ph) * var(--my) - 32px))}
 /* Balão de pelúcia: borda lilás, "chão" embaixo, etiqueta com o nome de quem fala */
-.bubble{--bc:#CDB8F5;position:relative;background:#fff;border:3px solid var(--bc);border-radius:28px;padding:16px 20px 14px;box-shadow:0 5px 0 #E6DCFB,inset 0 -4px 0 #F7F3FF;font-family:var(--body);font-weight:600;font-size:clamp(17px,2vw,21px);line-height:1.32;color:var(--ink);flex:0 1 auto;width:fit-content;max-width:min(440px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .45s cubic-bezier(.3,1.6,.5,1) backwards;transform-origin:0 30px}
+.bubble{--bc:#CDB8F5;position:relative;background:#fff;border:3px solid var(--bc);border-radius:28px;padding:14px 20px;text-wrap:balance;box-shadow:0 5px 0 #E6DCFB,inset 0 -4px 0 #F7F3FF;font-family:var(--body);font-weight:600;font-size:clamp(17px,2vw,21px);line-height:1.32;color:var(--ink);flex:0 1 auto;width:fit-content;max-width:min(440px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .45s cubic-bezier(.3,1.6,.5,1) backwards;transform-origin:0 30px}
 .bubble::before{content:"";position:absolute;width:18px;height:18px;background:#fff;border:3px solid var(--bc);border-top:0;border-right:0;border-radius:0 0 0 6px;left:-12px;top:20px;transform:rotate(45deg)}
 .bubble.tail-down{transform-origin:50% 100%}
 .bubble.tail-down::before{left:50%;top:auto;bottom:-12px;transform:translateX(-50%) rotate(-45deg)}
 .bubble.tail-up{transform-origin:50% 0}
 .bubble.tail-up::before{left:50%;top:-12px;transform:translateX(-50%) rotate(135deg)}
-.bubble .who{position:absolute;top:-15px;left:18px;background:var(--wc,var(--purple));color:#fff;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.3px;line-height:1;padding:6px 12px;border-radius:999px;box-shadow:0 3px 0 rgba(43,35,80,.15);white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
 @keyframes bubbleIn{from{transform:scale(.6);opacity:0}}
 .say{float:right;margin:-4px -6px 4px 8px;width:46px;height:46px;border-radius:50%;background:var(--sky2);font-size:22px}
 .ph{width:clamp(100px,18vw,160px);aspect-ratio:3/4;flex:none;border-radius:28px;display:grid;place-items:center;font-size:clamp(46px,8vw,70px);color:#fff;position:relative;box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)}
@@ -274,7 +273,7 @@ img{max-width:100%}
 @media (max-width:560px){
   .talk{--ph:clamp(140px,40vw,170px)}
   .ph{width:110px}
-  .bubble{font-size:17px;padding:14px 16px 12px}
+  .bubble{font-size:17px;padding:12px 16px}
   .room .me{height:190px}
   .room .shelf{left:20px;top:130px;justify-content:center}
 }
@@ -431,7 +430,7 @@ art:{
 /* ============ STATE ============ */
 const KEY="bosque-dos-animais-v1";
 let S = load();
-function fresh(){return {avatar:null,name:"",age:null,ano:null,style:null,fav:null,hard:null,why:null,school:{},schoolOther:{},chosen:[],unlocked:[],prova:null,tempo:null,quizDone:false,progress:{},stars:0,items:[]}}
+function fresh(){return {avatar:null,name:"",age:null,ano:null,style:null,fav:null,hard:null,why:null,school:{},schoolOther:{},met:[],chosen:[],unlocked:[],prova:null,tempo:null,quizDone:false,progress:{},stars:0,items:[]}}
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s==="object")return Object.assign(fresh(),s)}catch(e){}return fresh()}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 const faixa=()=>faixaOf(S.age||7);
@@ -495,7 +494,7 @@ function profArt(id,cls="prof"){
 }
 const talkVars=id=>`--my:${SUBJ[id].prof.mouth||.42};--wc:${SUBJ[id].tag}`;
 function talk(id,text,who){
-  return `<div class="talk" style="${talkVars(id)}">${profArt(id)}<div class="bubble"><button class="say" data-say="${esc(text)}" aria-label="Ouvir">🔊</button><span class="who">${esc(who||SUBJ[id].prof.name)}</span>${esc(text)}</div></div>`;
+  return `<div class="talk" style="${talkVars(id)}">${profArt(id)}<div class="bubble"><button class="say" data-say="${esc(text)}" aria-label="Ouvir">🔊</button><span class="tx">${esc(text)}</span></div></div>`;
 }
 function topbar(){
   const a=av();
@@ -528,7 +527,7 @@ function Splash(){
 }
 function Start(){
   app.innerHTML=`<div class="corner">${soundBtn()}</div><div class="hero fill">
-    <div class="pencil-talk"><div class="bubble tail-down"><h1 class="tagline">Escolha seu bichinho, conheça seus professores e aprenda brincando!</h1></div>
+    <div class="pencil-talk"><div class="bubble tail-down"><h1 class="tagline"><span class="tx">Escolha seu bichinho, conheça seus professores e aprenda brincando!</span></h1></div>
       <img class="pencil-big" src="${PENCIL}" alt="Lápis, o ajudante"></div>
     <div class="row" style="justify-content:center;margin-top:8px">
       ${S.quizDone?`<button class="btn" data-go="map">Continuar ▶</button><button class="btn ghost" data-go="avatar">Começar de novo</button>`:`<button class="btn" data-go="avatar">Começar! ▶</button>`}
@@ -539,7 +538,7 @@ let pickAv=null;
 function Avatar(){
   if(screen==="avatar"&&S.quizDone&&!pickAv){/* restarting */}
   pickAv=pickAv||S.avatar;
-  app.innerHTML=`${talk("mat","Primeiro, escolha quem você quer ser!","Duda")}
+  app.innerHTML=`${talk("mat","Oi! Eu sou a Duda. Primeiro, escolha quem você quer ser!")}
   <div class="avs">${AVATARS.map(a=>`<button class="av ${pickAv===a.id?"sel":""}" data-av="${a.id}"><img src="${a.img}" alt=""><span class="nm">${a.name}</span></button>`).join("")}</div>
   <div class="field"><label for="nome">Qual é o seu nome? <span style="color:var(--muted)">(um adulto pode ajudar)</span></label>${writeBox(`<input id="nome" maxlength="20" autocomplete="off" value="${esc(S.name)}" placeholder="Seu nome">`,true)}</div>
   <div class="foot"><button class="btn ghost" data-go="start">◀ Voltar</button><button class="btn" id="avok" ${pickAv?"":"disabled"}>Continuar ▶</button></div>`;
@@ -556,7 +555,7 @@ const STYLE_OPTS=[["ouvindo","🎧","Ouvindo"],["vendo","👀","Vendo"],["jogand
 const WHY_OPTS=[["nao_entendo","😕","Não entendo direito"],["chata","😴","Acho meio chata"],["rapido","🏃","Na escola vai muito rápido"],["nervoso","😰","Fico nervoso nas provas"]];
 const ANOS=["Ainda não vou à escola","Educação Infantil","1º ano","2º ano","3º ano","4º ano","5º ano","6º ano","7º ano"];
 const QUIZ=[
-  {id:"age",prof:"mat",text:()=>`Oi${S.name?", "+S.name:""}! Eu sou a Duda. Quantos anos você tem?`},
+  {id:"age",prof:"mat",text:()=>`${S.name?S.name+", quantos":"Quantos"} anos você tem?`},
   {id:"ano",prof:"ing",text:()=>"E eu sou o Gabi! Em que ano da escola você está?"},
   {id:"style",prof:"mat",text:()=>"Como você gosta mais de aprender?"},
   {id:"fav",prof:"ing",text:()=>"Qual matéria você MAIS gosta?"},
@@ -671,13 +670,17 @@ function startLevel(id){
 function Intro(){
   const id=L.introFor, sj=SUBJ[id], surprise=L.mode==="surprise";
   const reforco=!surprise&&id===S.hard;
-  const who=sj.prof.art==="a"?"sua professora":sj.prof.art==="o"?"seu professor":"seu professor";
-  const msg=surprise?`Surpresa! Eu sou ${who} de ${sj.name}. Vamos fazer uma aula rapidinha?`
-    :reforco?`Oi! Eu sou ${who} de ${sj.name}. Vamos treinar juntos, sem pressa. Se precisar, toque na lâmpada 💡 para pedir uma dica!`
-    :`Oi! Eu sou ${who} de ${sj.name}. Vamos aprender juntos?`;
+  // Cada professor diz o próprio nome só na primeira vez que aparece (Duda e Gabi já se apresentam no quiz)
+  const met=(S.met||[]).includes(id)||((id==="mat"||id==="ing")&&S.quizDone);
+  const p=sj.prof, who=p.art==="a"?"sua professora":"seu professor";
+  const hi=met?`Oi de novo!`:`Oi! Eu sou ${p.art==="a"?"a "+p.name+", ":p.art==="o"?"o "+p.name+", ":""}${who} de ${sj.name}.`;
+  const msg=surprise?(met?`Surpresa! Uma aula rapidinha de ${sj.name}. Vamos?`:`Surpresa! ${hi.slice(4)} Vamos fazer uma aula rapidinha?`)
+    :reforco?`${hi} Vamos treinar ${met?sj.name+" ":""}juntos, sem pressa. Se precisar, toque na lâmpada 💡 para pedir uma dica!`
+    :`${hi} Vamos aprender ${met?sj.name+" ":""}juntos?`;
+  if(!met){S.met=[...(S.met||[]),id];save()}
   app.innerHTML=`<div class="center fill">
     <div style="display:grid;place-items:center">${sj.prof.img?`<img src="${sj.prof.img}" alt="${esc(sj.prof.name)}" style="height:min(300px,40vh);animation:bob 3s ease-in-out infinite">`:`<div class="ph" style="background:${sj.color};width:180px;font-size:80px">${sj.emoji}<small>professor em breve</small></div>`}</div>
-    <div class="bubble tail-up" style="margin:4px 0 0;--wc:${sj.tag}"><span class="who">${esc(sj.prof.name)}</span><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button>${esc(msg)}</div>
+    <div class="bubble tail-up" style="margin:4px 0 0"><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button><span class="tx">${esc(msg)}</span></div>
     <button class="btn" id="go">Vamos! ▶</button></div>`;
   setTimeout(()=>speak([[msg,"pt-BR"]]),300);
   $("#go").onclick=()=>go("lesson");
@@ -691,7 +694,7 @@ function Lesson(){
   const emo=it.order.every(o=>isEmoji(o));
   app.innerHTML=`<div class="qhead"><button class="x" id="quit" aria-label="Sair">✕</button><div class="bar"><i style="--p:${pct}%"></i></div>${soundBtn()}${L.mode==="surprise"?`<span class="pill">🎁</span>`:""}</div>
     <div class="qcard">
-      <div class="talk" style="${talkVars(id)}">${profArt(id)}<div class="bubble"><button class="say" id="sayq" aria-label="Ouvir">🔊</button><span class="who">${esc(sj.prof.name)} · ${sj.name}</span>${esc(text)}</div></div>
+      <div class="talk" style="${talkVars(id)}">${profArt(id)}<div class="bubble"><button class="say" id="sayq" aria-label="Ouvir">🔊</button><span class="tx">${esc(text)}</span></div></div>
       ${visual?`<div class="visual" aria-hidden="true">${visual}</div>`:""}
       <div class="opts tiles ${!emo&&it.order.some(o=>o.length>8)?"long":""}" data-n="${it.order.length}">${it.order.map((o,i)=>`<button class="opt ${emo?"emoji":""}" data-i="${i}"><span class="l">${esc(o)}</span></button>`).join("")}</div>
       ${reforco?`<div><button class="btn ghost" id="hintbtn">💡 Dica</button></div><p class="hint" id="hint" hidden>${esc(dica)}</p>`:""}
@@ -828,6 +831,25 @@ function Pais(){
     <div class="foot"><button class="btn" data-go="casa">← Voltar</button><button class="btn bad" id="reset">Apagar tudo e recomeçar</button></div>`;
   $("#reset").onclick=()=>{modal(`<h2>Apagar todo o progresso?</h2><p>O quiz, as estrelas e os itens da casa serão apagados.</p><div class="row" style="justify-content:center"><button class="btn bad" id="yes">Apagar</button><button class="btn ghost" id="no">Cancelar</button></div>`);$("#no").onclick=closeModal;$("#yes").onclick=()=>{closeModal();S=fresh();save();paisOk=false;pickAv=null;go("start")}};
 }
+
+/* ============ BALÕES JUSTOS ============ */
+// Quando o texto quebra em várias linhas, a caixa fica com a largura máxima e sobra espaço em branco.
+// Aqui medimos a linha mais comprida e ajustamos a largura do balão a ela.
+function fitBubbles(){
+  document.querySelectorAll(".bubble").forEach(b=>{
+    const t=b.querySelector(".tx");if(!t)return;
+    b.style.width="";
+    const rects=[...t.getClientRects()];if(rects.length<2)return;   // uma linha só: já está justo
+    const scale=b.getBoundingClientRect().width/(b.offsetWidth||1)||1; // o balão pode estar no meio do "pulinho"
+    const w=(Math.max(...rects.map(r=>r.right))-Math.min(...rects.map(r=>r.left)))/scale;
+    const cs=getComputedStyle(b);
+    const extra=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+parseFloat(cs.borderLeftWidth)+parseFloat(cs.borderRightWidth);
+    b.style.width=Math.ceil(w+extra+2)+"px";
+  });
+}
+new MutationObserver(()=>requestAnimationFrame(fitBubbles)).observe(app,{childList:true,subtree:true});
+window.addEventListener("resize",()=>requestAnimationFrame(fitBubbles));
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fitBubbles);
 
 /* ============ GLOBAL CLICKS ============ */
 document.addEventListener("click",e=>{
