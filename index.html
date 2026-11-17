@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="description" content="Bosque dos Animais: jogo educativo gratuito para crianças de 4 a 12 anos. Matemática, Ciências, História, Inglês e Artes com a Duda, o Gabi e os bichinhos do bosque.">
-<meta name="theme-color" content="#E8F4DC">
+<meta name="theme-color" content="#EFC1F7">
 <meta property="og:title" content="Bosque dos Animais">
 <meta property="og:description" content="Jogo educativo gratuito para crianças de 4 a 12 anos. Por Eduarda Normanha.">
 <meta property="og:image" content="assets/splash.webp">
@@ -18,14 +18,18 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@500;600;700&display=swap">
 <style>
-/* Layout: one-column "toy box" app on a green graph-paper notebook sheet (margin + binder holes); chunky pressable cards like plush toys. Single deliberate light world. */
+/* Layout: uma coluna sobre fundo lilás chapado; cartões brancos e cores candy (lima, menta, rosa, lavanda, manteiga) como blocos chapados. Um mundo claro só. */
 :root{
   color-scheme: light;
-  --sky:#BFE6FF; --sky2:#EEF8FF;
-  --paper:#E8F4DC; --grid:#CFE3C6; --grid2:#B5D3BC; --margin:#2F6B4A; --hole:#FFFFFF; --hole-edge:#B9BCA6;
-  --ink:#2B2350; --muted:#625A86; --card:#FFFFFF; --line:#E6E0F5;
-  --purple:#8E3BD6; --purple-d:#6A22A8; --yellow:#FFD23F; --good:#2FB36B; --good-bg:#DDF7E8; --bad:#F2545B; --bad-bg:#FFE3E4;
-  --mat:#FF5FA2; --ing:#F2B705; --cie:#22B8A8; --his:#C9783A; --art:#8E3BD6;
+  /* Paleta candy, inspirada na referência: cores chapadas, sem degradê */
+  --bg:#EFC1F7;                                   /* lilás do fundo */
+  --lime:#D4F07C; --mint:#A9F0C8; --pink:#F7A8E4; --peri:#A6B0FF; --butter:#FBEA8E; --peach:#FFC29A;
+  --royal:#2236A8; --royal-d:#18287E;             /* azul-royal: botão principal */
+  --sky:#C9D3FF; --sky2:#F4F1FF;
+  --ink:#16132A; --muted:#5F5876; --card:#FFFFFF; --line:#E9D7F0; --soft:#F7F1FA;
+  --purple:var(--royal); --purple-d:var(--royal-d); --yellow:var(--butter);
+  --good:#1F8F55; --good-bg:#C9F5DB; --bad:#C2482D; --bad-bg:#FFD6CB;
+  --mat:var(--pink); --ing:var(--lime); --cie:var(--mint); --his:var(--butter); --art:var(--peri);
   /* Fredoka: títulos e botões, arredondada como as letras da placa. Nunito: textos, pontas arredondadas e boa leitura no celular. Pesos leves (500/600) para não ficar "pesado". */
   --display:"Fredoka", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
   --body:"Nunito", "Segoe UI", system-ui, sans-serif;
@@ -33,22 +37,7 @@
 }
 [hidden]{display:none!important}
 html,body{height:100%}
-body{margin:0;color:var(--ink);font-family:var(--body);font-weight:500;font-size:17px;-webkit-tap-highlight-color:transparent;overflow-x:hidden;
-  --m:clamp(44px,8vw,96px);
-  background-color:var(--paper);
-  background-image:
-    linear-gradient(var(--grid2) 1.5px,transparent 1.5px),
-    linear-gradient(90deg,var(--grid2) 1.5px,transparent 1.5px),
-    linear-gradient(var(--grid) 1px,transparent 1px),
-    linear-gradient(90deg,var(--grid) 1px,transparent 1px);
-  background-size:50px 50px,50px 50px,10px 10px,10px 10px;
-  background-position:var(--m) 0;
-  background-attachment:fixed;
-  padding-left:var(--m)}
-/* margem da folha com os furinhos */
-body::after{content:"";position:fixed;top:0;bottom:0;left:0;width:var(--m);z-index:-1;
-  background:radial-gradient(circle at 50% 50%,var(--hole) 0 calc(var(--m)*.14),var(--hole-edge) calc(var(--m)*.14 + 1px) calc(var(--m)*.17),transparent calc(var(--m)*.17 + 1px)) 0 0/100% 33.333vh repeat-y var(--paper);
-  border-right:2px solid var(--margin)}
+body{margin:0;color:var(--ink);font-family:var(--body);font-weight:500;font-size:17px;-webkit-tap-highlight-color:transparent;overflow-x:hidden;background:var(--bg)}
 #app{max-width:980px;margin:0 auto;min-height:100%;box-sizing:border-box;padding-block:16px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
 h1,h2,h3{font-family:var(--display);margin:0;line-height:1.05;text-wrap:balance}
 h1{font-size:clamp(40px,8vw,72px);font-weight:600;color:var(--purple)}
@@ -153,10 +142,10 @@ img{max-width:100%}
 /* quiz chrome */
 .qhead{display:flex;align-items:center;gap:12px}
 .bar{flex:1;height:20px;position:relative;background:#fff;border-radius:999px;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
-/* Barra = corpinho do Lápis-unicórnio: listras finas e inclinadas nas cores dele
-   (vermelho, laranja, amarelo, verde, azul, roxo). O progresso revela a barra da esquerda para a direita. */
+/* Barra = corpinho do Lápis-unicórnio: listras finas e inclinadas, em versão candy
+   (rosa, pêssego, manteiga, lima, azul-céu, lavanda). O progresso revela a barra da esquerda para a direita. */
 .bar i{display:block;height:100%;width:100%;
-  background:repeating-linear-gradient(115deg,#E62318 0 7px,#FC6E02 7px 14px,#FCC405 14px 21px,#76B60A 21px 28px,#0E98E0 28px 35px,#8B2DCC 35px 42px);
+  background:repeating-linear-gradient(115deg,#FF9FB8 0 7px,#FFC08F 7px 14px,#FBE27A 14px 21px,#C6EC6E 21px 28px,#9CC8FF 28px 35px,#C7A6FF 35px 42px);
   box-shadow:inset 0 5px 0 rgba(255,255,255,.28),inset 0 -4px 0 rgba(0,0,0,.10);
   clip-path:inset(0 calc(100% - var(--p,0%)) 0 0 round 999px);transition:clip-path .4s}
 .snd{width:48px;height:48px;border-radius:50%;background:#fff;font-size:22px;box-shadow:0 4px 0 var(--line);flex:none;display:grid;place-items:center}
@@ -271,10 +260,6 @@ img{max-width:100%}
 .pencil-talk .bubble{margin:0;padding:clamp(16px,3vw,26px) clamp(20px,3.6vw,32px);animation-delay:.2s}
 .pencil-talk .tagline{text-align:center;max-width:20ch}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-@media (max-width:600px){
-  body{--m:0px}
-  body::after{display:none}
-}
 @media (max-width:560px){
   .talk{--ph:clamp(140px,40vw,170px)}
   .ph{width:110px}
@@ -312,11 +297,11 @@ const AVATARS = [
 ];
 // Professores: Duda e Gabi são reais; os outros três são temporários até chegarem as artes.
 const SUBJ = {
-  mat:{name:"Matemática", color:"var(--mat)", hex:"#FF5FA2", emoji:"🔢", prof:{name:"Duda", art:"a", img:A+"professores/duda.webp", mouth:.38}, tag:"#E0447F", item:["🧮","Ábaco"]},
-  ing:{name:"Inglês", color:"var(--ing)", hex:"#F2B705", emoji:"🇺🇸", prof:{name:"Gabi", art:"o", img:A+"professores/gabi.webp", mouth:.28}, tag:"#B97F00", item:["🎧","Fone de ouvido"]},
-  cie:{name:"Ciências", color:"var(--cie)", hex:"#22B8A8", emoji:"🔬", prof:{name:"Prof. de Ciências", art:"", img:null}, tag:"#128F82", item:["🔭","Telescópio"]},
-  his:{name:"História", color:"var(--his)", hex:"#C9783A", emoji:"🏛️", prof:{name:"Prof. de História", art:"", img:null}, tag:"#A25A22", item:["🗺️","Mapa antigo"]},
-  art:{name:"Artes", color:"var(--art)", hex:"#8E3BD6", emoji:"🎨", prof:{name:"Tia Dea", art:"a", img:null /* foto chega em breve: assets/professores/dea.webp */}, tag:"#7A2CC0", item:["🖼️","Quadro"]},
+  mat:{name:"Matemática", color:"var(--mat)", hex:"#F7A8E4", emoji:"🔢", prof:{name:"Duda", art:"a", img:A+"professores/duda.webp", mouth:.38}, tag:"#E0447F", item:["🧮","Ábaco"]},
+  ing:{name:"Inglês", color:"var(--ing)", hex:"#D4F07C", emoji:"🇺🇸", prof:{name:"Gabi", art:"o", img:A+"professores/gabi.webp", mouth:.28}, tag:"#B97F00", item:["🎧","Fone de ouvido"]},
+  cie:{name:"Ciências", color:"var(--cie)", hex:"#A9F0C8", emoji:"🔬", prof:{name:"Prof. de Ciências", art:"", img:null}, tag:"#128F82", item:["🔭","Telescópio"]},
+  his:{name:"História", color:"var(--his)", hex:"#FBEA8E", emoji:"🏛️", prof:{name:"Prof. de História", art:"", img:null}, tag:"#A25A22", item:["🗺️","Mapa antigo"]},
+  art:{name:"Artes", color:"var(--art)", hex:"#A6B0FF", emoji:"🎨", prof:{name:"Tia Dea", art:"a", img:null /* foto chega em breve: assets/professores/dea.webp */}, tag:"#7A2CC0", item:["🖼️","Quadro"]},
 };
 const SUBJ_IDS = Object.keys(SUBJ);
 const NONE = "__nenhuma";
@@ -506,7 +491,7 @@ function topbar(){
   return `<div class="top"><div class="me"><img src="${a.img}" alt=""></div><div class="nm">${esc(S.name||a.name)}<small>${FAIXA[faixa()]}</small></div><span class="pill">⭐ ${S.stars}</span>${soundBtn()}<button class="btn" data-go="casa">🏠 Casa</button></div>`;
 }
 function confetti(){
-  const c=$("#confetti");c.innerHTML="";const cols=["#FF5FA2","#FFD23F","#22B8A8","#8E3BD6","#3A86FF","#FF9F1C"];
+  const c=$("#confetti");c.innerHTML="";const cols=["#F7A8E4","#D4F07C","#A9F0C8","#A6B0FF","#FBEA8E","#FFC29A","#2236A8"];
   for(let i=0;i<60;i++){const e=document.createElement("i");e.style.left=Math.random()*100+"%";e.style.background=cols[i%cols.length];e.style.animationDelay=Math.random()*.5+"s";e.style.animationDuration=1.2+Math.random()+"s";c.appendChild(e)}
   setTimeout(()=>c.innerHTML="",2400);
 }
