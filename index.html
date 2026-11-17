@@ -281,10 +281,12 @@ img{max-width:100%}
 .pencil-talk{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:640px}
 /* tela inicial: título, Lápis grande dentro de um retângulo lilás-claro, botão embaixo */
 .start-title{font-size:clamp(22px,5.8vw,34px);font-weight:800;color:var(--ink);text-align:center;max-width:21ch;line-height:1.1;letter-spacing:-.02em;text-wrap:balance}
-.pencil-box{position:relative;width:min(100%,460px);height:clamp(280px,48vh,460px);border-radius:36px;background:var(--box-lilac);display:grid;place-items:center;overflow:hidden;margin:clamp(14px,3vh,26px) 0} /* respiro entre título, caixa e botão */
-.pencil-big{height:86%;width:auto;animation:bob 3s ease-in-out infinite;transform-origin:50% 90%}
-.pencil-box .spk{position:absolute}
-.pencil-box .s1{top:14%;left:14%}.pencil-box .s2{top:22%;right:16%}.pencil-box .s3{bottom:16%;left:20%}
+/* Cartão vertical (mais alto que largo), como o cartão da referência: Lápis grande em cima e o botão
+   largo dentro do cartão, embaixo. A altura acompanha a tela para tudo caber sem rolar. */
+.pencil-box{height:min(calc(100svh - 190px),620px);aspect-ratio:.66;max-width:100%;box-sizing:border-box;border-radius:36px;background:var(--box-lilac);display:flex;flex-direction:column;align-items:center;gap:16px;padding:clamp(18px,4vh,32px) 18px 18px;margin-top:clamp(14px,3vh,26px);overflow:hidden}
+.pencil-big{flex:1;min-height:0;height:auto;max-height:100%;width:auto;max-width:100%;object-fit:contain;animation:bob 3s ease-in-out infinite;transform-origin:50% 90%}
+.box-btns{display:flex;flex-direction:column;gap:10px;width:100%}
+.box-btns .btn{width:100%;min-height:54px;font-size:18px}
 .pencil-talk .bubble{margin:0;padding:clamp(16px,3vw,26px) clamp(20px,3.6vw,32px);animation-delay:.2s}
 .pencil-talk .tagline{text-align:center;max-width:20ch}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -614,9 +616,8 @@ function Splash(){
 function Start(){
   app.innerHTML=`<div class="corner">${soundBtn()}</div><div class="hero fill">
     <h1 class="start-title">Escolha seu bichinho e aprenda brincando!</h1>
-    <div class="pencil-box">${ic("sparkle",30,"spk s1")}${ic("sparkle",22,"spk s2")}${ic("sparkle",26,"spk s3")}<img class="pencil-big" src="${PENCIL}" alt="Lápis, o ajudante"></div>
-    <div class="row" style="justify-content:center;margin-top:8px">
-      ${S.quizDone?`<button class="btn" data-go="map">Continuar ${NX}</button><button class="btn ghost" data-go="avatar">Começar de novo</button>`:`<button class="btn" data-go="avatar">Começar! ${NX}</button>`}
+    <div class="pencil-box"><img class="pencil-big" src="${PENCIL}" alt="Lápis, o ajudante">
+      <div class="box-btns">${S.quizDone?`<button class="btn" data-go="map">Continuar ${NX}</button><button class="btn ghost" data-go="avatar">Começar de novo</button>`:`<button class="btn" data-go="avatar">Começar! ${NX}</button>`}</div>
     </div></div>`;
 }
 
