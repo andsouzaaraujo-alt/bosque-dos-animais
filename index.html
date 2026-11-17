@@ -138,9 +138,14 @@ img{max-width:100%}
 
 /* quiz chrome */
 .qhead{display:flex;align-items:center;gap:12px}
-.bar{flex:1;height:18px;background:#fff;border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
-/* arco-íris ocupa a barra inteira; o progresso revela as cores da esquerda para a direita */
-.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#FF4D6D,#FF9F1C 20%,#FFD23F 40%,#4CC96B 60%,#3A9BFF 80%,#8E3BD6);clip-path:inset(0 calc(100% - var(--p,0%)) 0 0 round 999px);transition:clip-path .4s}
+.bar{flex:1;height:20px;background:#fff;border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
+/* listrinhas inclinadas de arco-íris que andam devagar; o progresso revela a barra da esquerda para a direita */
+.bar i{display:block;height:100%;width:100%;
+  background:repeating-linear-gradient(-45deg,#FF4D6D 0 10px,#FF9F1C 10px 20px,#FFD23F 20px 30px,#4CC96B 30px 40px,#3A9BFF 40px 50px,#8E3BD6 50px 60px);
+  box-shadow:inset 0 4px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.08);
+  clip-path:inset(0 calc(100% - var(--p,0%)) 0 0 round 999px);transition:clip-path .4s;
+  animation:stripes 2.4s linear infinite}
+@keyframes stripes{to{background-position:84.85px 0}} /* 60px de listras ÷ cos 45° = 84,85px: o desenho se repete sem pulo */
 .x{width:48px;height:48px;border-radius:50%;background:#fff;font-size:22px;box-shadow:0 4px 0 var(--line);flex:none}
 .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 
