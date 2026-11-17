@@ -75,7 +75,7 @@ img{max-width:100%}
 @keyframes bob{50%{transform:translateY(-8px)}}
 
 /* Personagem + fala. --ph = altura do personagem, --my = altura da boca (fração da imagem).
-   A fala é um balão de mensagem, como no WhatsApp: azul com texto branco, cantos arredondados e
+   A fala é um balão de mensagem, como no WhatsApp: lilás (mesma cor do botão do Lápis) com texto escuro, cantos arredondados e
    o canto do lado de quem fala mais "quadradinho". A largura acompanha a quantidade de texto. */
 .talk{--ph:clamp(110px,16vw,160px);--my:.4;display:flex;align-items:flex-start;gap:clamp(10px,2vw,16px)}
 .talk .prof{height:var(--ph);width:auto;flex:none}
@@ -85,10 +85,10 @@ img{max-width:100%}
 .talk .ph{height:var(--hh);aspect-ratio:1;border-radius:50%;font-size:0}
 .talk .ph small{display:none}
 .talk .ph .ic{width:60%;height:60%}
-.bubble{position:relative;background:#3659C2;color:#fff;border-radius:20px 20px 20px 20px;border-top-left-radius:6px;padding:11px 16px;text-wrap:balance;font-family:var(--body);font-weight:600;font-size:clamp(16px,1.8vw,18px);line-height:1.38;flex:0 1 auto;width:fit-content;max-width:min(420px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .35s cubic-bezier(.3,1.4,.5,1) backwards;transform-origin:0 0}
+.bubble{position:relative;background:#B49CF5;color:var(--ink);border-radius:20px 20px 20px 20px;border-top-left-radius:6px;padding:11px 16px;text-wrap:balance;font-family:var(--body);font-weight:600;font-size:clamp(16px,1.8vw,18px);line-height:1.38;flex:0 1 auto;width:fit-content;max-width:min(420px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .35s cubic-bezier(.3,1.4,.5,1) backwards;transform-origin:0 0}
 .bubble.tail-down{border-top-left-radius:20px;border-bottom-left-radius:6px;transform-origin:0 100%}
 .bubble.tail-up{transform-origin:0 0}
-.bubble .tagline{color:#fff}
+.bubble .tagline{color:var(--ink)}
 @keyframes bubbleIn{from{transform:scale(.7);opacity:0}}
 .say{float:right;margin:-4px -6px 4px 8px;width:46px;height:46px;border-radius:50%;background:var(--sky2);font-size:22px}
 .ph{width:clamp(100px,18vw,160px);aspect-ratio:3/4;flex:none;border-radius:28px;display:grid;place-items:center;font-size:clamp(46px,8vw,70px);color:#fff;position:relative;box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)}
