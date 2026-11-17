@@ -80,11 +80,21 @@ img{max-width:100%}
 @keyframes bob{50%{transform:translateY(-8px)}}
 
 /* professor + bubble */
-.talk{display:flex;align-items:flex-end;gap:12px}
-.talk .prof{height:clamp(120px,22vw,200px);width:auto;flex:none;filter:drop-shadow(0 6px 5px rgba(43,35,80,.15))}
-.bubble{position:relative;background:#fff;border-radius:24px;padding:16px 20px;box-shadow:0 6px 0 var(--line);font-size:clamp(19px,2.6vw,24px);font-family:var(--display);font-weight:700;line-height:1.2;flex:0 1 auto;width:fit-content;max-width:min(560px,100%);min-width:0;margin-bottom:20px;box-sizing:border-box}
-.bubble::before{content:"";position:absolute;left:-12px;bottom:22px;border:12px solid transparent;border-right-color:#fff;border-left:0}
-.bubble .who{display:block;font-family:var(--body);font-size:14px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;margin-bottom:4px}
+/* Personagem + balão. --ph = altura do personagem, --my = altura da boca (fração da imagem).
+   O balão desce até a pontinha ficar na altura da boca. */
+.talk{--ph:clamp(120px,22vw,200px);--my:.4;display:flex;align-items:flex-start;gap:8px}
+.talk .prof{height:var(--ph);width:auto;flex:none;filter:drop-shadow(0 6px 5px rgba(43,35,80,.15))}
+.talk .ph{height:var(--ph);width:auto;aspect-ratio:3/4;flex:none}
+.talk .bubble{margin-top:max(14px,calc(var(--ph) * var(--my) - 32px))}
+/* Balão de pelúcia: borda lilás, "chão" embaixo, etiqueta com o nome de quem fala */
+.bubble{--bc:#CDB8F5;position:relative;background:#fff;border:3px solid var(--bc);border-radius:28px;padding:18px 22px 16px;box-shadow:0 6px 0 #E6DCFB,inset 0 -5px 0 #F7F3FF;font-family:var(--body);font-weight:700;font-size:clamp(19px,2.5vw,24px);line-height:1.28;color:var(--ink);flex:0 1 auto;width:fit-content;max-width:min(560px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .45s cubic-bezier(.3,1.6,.5,1) backwards;transform-origin:0 30px}
+.bubble::before{content:"";position:absolute;width:18px;height:18px;background:#fff;border:3px solid var(--bc);border-top:0;border-right:0;border-radius:0 0 0 6px;left:-12px;top:20px;transform:rotate(45deg)}
+.bubble.tail-down{transform-origin:50% 100%}
+.bubble.tail-down::before{left:50%;top:auto;bottom:-12px;transform:translateX(-50%) rotate(-45deg)}
+.bubble.tail-up{transform-origin:50% 0}
+.bubble.tail-up::before{left:50%;top:-12px;transform:translateX(-50%) rotate(135deg)}
+.bubble .who{position:absolute;top:-15px;left:18px;background:var(--wc,var(--purple));color:#fff;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.3px;line-height:1;padding:6px 12px;border-radius:999px;box-shadow:0 3px 0 rgba(43,35,80,.15);white-space:nowrap;max-width:calc(100% - 24px);overflow:hidden;text-overflow:ellipsis}
+@keyframes bubbleIn{from{transform:scale(.6);opacity:0}}
 .say{float:right;margin:-4px -6px 4px 8px;width:46px;height:46px;border-radius:50%;background:var(--sky2);font-size:22px}
 .ph{width:clamp(100px,18vw,160px);aspect-ratio:3/4;flex:none;border-radius:28px;display:grid;place-items:center;font-size:clamp(46px,8vw,70px);color:#fff;position:relative;box-shadow:inset 0 -10px 0 rgba(0,0,0,.12)}
 .ph small{position:absolute;bottom:10px;font-size:12px;font-family:var(--body);background:rgba(255,255,255,.9);color:var(--ink);border-radius:999px;padding:2px 8px}
@@ -246,16 +256,15 @@ img{max-width:100%}
 /* tela inicial: balão em cima, Lápis centralizado embaixo */
 .pencil-talk{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:640px}
 .pencil-big{height:clamp(190px,min(38vh,56vw),320px);width:auto;flex:none;filter:drop-shadow(0 10px 8px rgba(43,35,80,.18));animation:bob 3s ease-in-out infinite;transform-origin:50% 90%}
-.pencil-talk .bubble{margin:0;padding:clamp(16px,3vw,26px) clamp(20px,3.6vw,32px);animation:popIn .5s .2s cubic-bezier(.3,1.6,.5,1) backwards}
+.pencil-talk .bubble{margin:0;padding:clamp(16px,3vw,26px) clamp(20px,3.6vw,32px);animation-delay:.2s}
 .pencil-talk .tagline{text-align:center;max-width:20ch}
-.pencil-talk .bubble::before{left:50%;top:auto;bottom:-14px;transform:translateX(-50%);border:14px solid transparent;border-top-color:#fff;border-bottom:0}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:600px){
   body{--m:0px}
   body::after{display:none}
 }
 @media (max-width:560px){
-  .talk .prof{height:clamp(140px,40vw,170px)}
+  .talk{--ph:clamp(140px,40vw,170px)}
   .ph{width:110px}
   .bubble{font-size:19px}
   .room .me{height:190px}
@@ -291,11 +300,11 @@ const AVATARS = [
 ];
 // Professores: Duda e Gabi são reais; os outros três são temporários até chegarem as artes.
 const SUBJ = {
-  mat:{name:"Matemática", color:"var(--mat)", hex:"#FF5FA2", emoji:"🔢", prof:{name:"Duda", art:"a", img:A+"professores/duda.webp"}, item:["🧮","Ábaco"]},
-  ing:{name:"Inglês", color:"var(--ing)", hex:"#F2B705", emoji:"🇺🇸", prof:{name:"Gabi", art:"o", img:A+"professores/gabi.webp"}, item:["🎧","Fone de ouvido"]},
-  cie:{name:"Ciências", color:"var(--cie)", hex:"#22B8A8", emoji:"🔬", prof:{name:"Prof. de Ciências", art:"", img:null}, item:["🔭","Telescópio"]},
-  his:{name:"História", color:"var(--his)", hex:"#C9783A", emoji:"🏛️", prof:{name:"Prof. de História", art:"", img:null}, item:["🗺️","Mapa antigo"]},
-  art:{name:"Artes", color:"var(--art)", hex:"#8E3BD6", emoji:"🎨", prof:{name:"Prof. de Artes", art:"", img:null}, item:["🖼️","Quadro"]},
+  mat:{name:"Matemática", color:"var(--mat)", hex:"#FF5FA2", emoji:"🔢", prof:{name:"Duda", art:"a", img:A+"professores/duda.webp", mouth:.38}, tag:"#E0447F", item:["🧮","Ábaco"]},
+  ing:{name:"Inglês", color:"var(--ing)", hex:"#F2B705", emoji:"🇺🇸", prof:{name:"Gabi", art:"o", img:A+"professores/gabi.webp", mouth:.28}, tag:"#B97F00", item:["🎧","Fone de ouvido"]},
+  cie:{name:"Ciências", color:"var(--cie)", hex:"#22B8A8", emoji:"🔬", prof:{name:"Prof. de Ciências", art:"", img:null}, tag:"#128F82", item:["🔭","Telescópio"]},
+  his:{name:"História", color:"var(--his)", hex:"#C9783A", emoji:"🏛️", prof:{name:"Prof. de História", art:"", img:null}, tag:"#A25A22", item:["🗺️","Mapa antigo"]},
+  art:{name:"Artes", color:"var(--art)", hex:"#8E3BD6", emoji:"🎨", prof:{name:"Prof. de Artes", art:"", img:null}, tag:"#7A2CC0", item:["🖼️","Quadro"]},
 };
 const SUBJ_IDS = Object.keys(SUBJ);
 const NONE = "__nenhuma";
@@ -444,8 +453,9 @@ function profArt(id,cls="prof"){
   if(p.img)return `<img class="${cls}" src="${p.img}" alt="${esc(p.name)}">`;
   return `<div class="ph" style="background:${SUBJ[id].color}" aria-label="${esc(p.name)}">${SUBJ[id].emoji}<small>em breve</small></div>`;
 }
+const talkVars=id=>`--my:${SUBJ[id].prof.mouth||.42};--wc:${SUBJ[id].tag}`;
 function talk(id,text,who){
-  return `<div class="talk">${profArt(id)}<div class="bubble"><button class="say" data-say="${esc(text)}" aria-label="Ouvir">🔊</button><span class="who">${esc(who||SUBJ[id].prof.name)}</span>${esc(text)}</div></div>`;
+  return `<div class="talk" style="${talkVars(id)}">${profArt(id)}<div class="bubble"><button class="say" data-say="${esc(text)}" aria-label="Ouvir">🔊</button><span class="who">${esc(who||SUBJ[id].prof.name)}</span>${esc(text)}</div></div>`;
 }
 function topbar(){
   const a=av();
@@ -478,7 +488,7 @@ function Splash(){
 }
 function Start(){
   app.innerHTML=`<div class="hero fill">
-    <div class="pencil-talk"><div class="bubble"><h1 class="tagline">Escolha seu bichinho, conheça seus professores e aprenda brincando!</h1></div>
+    <div class="pencil-talk"><div class="bubble tail-down"><h1 class="tagline">Escolha seu bichinho, conheça seus professores e aprenda brincando!</h1></div>
       <img class="pencil-big" src="${PENCIL}" alt="Lápis, o ajudante"></div>
     <div class="row" style="justify-content:center;margin-top:8px">
       ${S.quizDone?`<button class="btn" data-go="map">Continuar ▶</button><button class="btn ghost" data-go="avatar">Começar de novo</button>`:`<button class="btn" data-go="avatar">Começar! ▶</button>`}
@@ -625,9 +635,8 @@ function Intro(){
     :reforco?`Oi! Eu sou ${who} de ${sj.name}. Vamos treinar juntos, sem pressa. Se precisar, toque na lâmpada 💡 para pedir uma dica!`
     :`Oi! Eu sou ${who} de ${sj.name}. Vamos aprender juntos?`;
   app.innerHTML=`<div class="center fill">
-    <div style="display:grid;place-items:center;min-height:240px">${sj.prof.img?`<img src="${sj.prof.img}" alt="${esc(sj.prof.name)}" style="height:min(300px,40vh);animation:bob 3s ease-in-out infinite">`:`<div class="ph" style="background:${sj.color};width:180px;font-size:80px">${sj.emoji}<small>professor em breve</small></div>`}</div>
-    <h2 style="color:${sj.color}">${esc(sj.prof.name)}</h2>
-    <div class="bubble" style="margin:0;max-width:560px"><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button>${esc(msg)}</div>
+    <div style="display:grid;place-items:center">${sj.prof.img?`<img src="${sj.prof.img}" alt="${esc(sj.prof.name)}" style="height:min(300px,40vh);animation:bob 3s ease-in-out infinite">`:`<div class="ph" style="background:${sj.color};width:180px;font-size:80px">${sj.emoji}<small>professor em breve</small></div>`}</div>
+    <div class="bubble tail-up" style="margin:4px 0 0;--wc:${sj.tag}"><span class="who">${esc(sj.prof.name)}</span><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button>${esc(msg)}</div>
     <button class="btn" id="go">Vamos! ▶</button></div>`;
   setTimeout(()=>speak([[msg,"pt-BR"]]),300);
   $("#go").onclick=()=>go("lesson");
@@ -641,7 +650,7 @@ function Lesson(){
   const emo=it.order.every(o=>isEmoji(o));
   app.innerHTML=`<div class="qhead"><button class="x" id="quit" aria-label="Sair">✕</button><div class="bar"><i style="--p:${pct}%"></i></div>${L.mode==="surprise"?`<span class="pill">🎁</span>`:""}</div>
     <div class="qcard">
-      <div class="talk">${profArt(id)}<div class="bubble"><button class="say" id="sayq" aria-label="Ouvir">🔊</button><span class="who">${esc(sj.prof.name)} · ${sj.name}</span>${esc(text)}</div></div>
+      <div class="talk" style="${talkVars(id)}">${profArt(id)}<div class="bubble"><button class="say" id="sayq" aria-label="Ouvir">🔊</button><span class="who">${esc(sj.prof.name)} · ${sj.name}</span>${esc(text)}</div></div>
       ${visual?`<div class="visual" aria-hidden="true">${visual}</div>`:""}
       <div class="opts tiles ${!emo&&it.order.some(o=>o.length>8)?"long":""}" data-n="${it.order.length}">${it.order.map((o,i)=>`<button class="opt ${emo?"emoji":""}" data-i="${i}"><span class="l">${esc(o)}</span></button>`).join("")}</div>
       ${reforco?`<div><button class="btn ghost" id="hintbtn">💡 Dica</button></div><p class="hint" id="hint" hidden>${esc(dica)}</p>`:""}
