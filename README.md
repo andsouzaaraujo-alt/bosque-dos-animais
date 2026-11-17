@@ -43,7 +43,7 @@ manifest.webmanifest     permite instalar na tela inicial do celular/tablet
 assets/
   splash.webp            imagem de abertura
   logo.webp              marca
-  professores/           Duda (Matemática) e Gabi (Inglês)
+  professores/           Duda (Matemática), Gabi (Inglês) e, em breve, Tia Dea (Artes)
   avatares/              bichinhos que a criança pode escolher
   ajudantes/lapis.webp   lápis-unicórnio que ajuda nos campos de escrever
   icone-*.png            ícones do app
@@ -59,6 +59,11 @@ Tudo fica no `<script>` do `index.html`:
 - **Perguntas:** ficam no objeto `Q`, por matéria e por faixa (`p`, `m` e `g`). O formato é `[pergunta, [CERTA, errada, errada], dica, visual?, falaEmInglês?]`. A primeira opção é sempre a certa; o jogo embaralha as opções na tela.
 - **Temas da escola** (mostrados no quiz): ficam no objeto `TOPICS`.
 - **Voz:** está desligada. Para ligar, troque `VOICE = false` por `true`.
+- **Sons:** ficam no objeto `SFX` (sons criados pelo navegador, sem arquivos). A criança liga e desliga no botão 🔊.
+
+## Publicar uma nova versão
+
+Veja o passo a passo em [docs/COMO-PUBLICAR.md](docs/COMO-PUBLICAR.md).
 
 ## Direitos
 
