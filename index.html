@@ -113,7 +113,8 @@ img{max-width:100%}
 .opt .l{max-width:100%;overflow-wrap:break-word;hyphens:auto}
 .tiles[data-n="3"],.tiles[data-n="9"]{--cols:3}
 .tiles[data-n="3"]>.opt{padding:16px 10px}
-.tiles[data-n="9"]>.opt{min-height:80px;padding:14px 10px;font-size:clamp(15px,2vw,19px)}
+.tiles[data-n="9"]>.opt{min-height:84px;padding:14px 6px;font-size:clamp(21px,5.4vw,26px)} /* "1º ano" maior */
+.tiles[data-n="9"] .l.two{font-size:clamp(14px,3.6vw,19px);line-height:1.2} /* os dois textos compridos, em duas linhas */
 .tiles[data-n="3"]:not(.long)>.opt:not(.emoji){min-height:96px;font-size:clamp(22px,3vw,28px)}
 .tiles.long{--cols:1}
 .tiles.long>.opt{min-height:68px;padding:14px 20px}
@@ -557,6 +558,8 @@ function Avatar(){
 /* ---- QUIZ ---- */
 const STYLE_OPTS=[["ouvindo","🎧","Ouvindo"],["vendo","👀","Vendo"],["jogando","🎮","Jogando"],["desenhando","✏️","Desenhando"]];
 const WHY_OPTS=[["nao_entendo","😕","Não entendo direito"],["chata","😴","Acho meio chata"],["rapido","🏃","Na escola vai muito rápido"],["nervoso","😰","Fico nervoso nas provas"]];
+// Textos compridos quebram em duas linhas equilibradas
+const ANO_LABEL={"Ainda não vou à escola":"Ainda não<br>vou à escola","Educação Infantil":"Educação<br>Infantil"};
 const ANOS=["Ainda não vou à escola","Educação Infantil","1º ano","2º ano","3º ano","4º ano","5º ano","6º ano","7º ano"];
 const QUIZ=[
   {id:"age",prof:"mat",text:()=>`${S.name?S.name+", quantos":"Quantos"} anos você tem?`},
@@ -579,7 +582,7 @@ function Quiz(){
   const listOpts=(opts,sel)=>`<div class="opts tiles" data-n="${opts.length}">${opts.map(([v,e,l])=>`<button class="opt ${sel===v?"sel":""}" data-v="${v}"><span class="e">${e}</span><span class="l">${l}</span></button>`).join("")}</div>`;
   switch(s.id){
     case "age": body=`<div class="opts ages">${[4,5,6,7,8,9,10,11,12].map(n=>`<button class="opt ${S.age===n?"sel":""}" data-v="${n}">${n}</button>`).join("")}</div>`+(S.age?`<p class="hint">Nível: <b>${FAIXA[faixa()]}</b></p>`:""); canNext=!!S.age; break;
-    case "ano": body=`<div class="opts tiles" data-n="9">${ANOS.map(a=>`<button class="opt ${S.ano===a?"sel":""}" data-v="${a}"><span class="l">${a}</span></button>`).join("")}</div>`; canNext=!!S.ano; break;
+    case "ano": body=`<div class="opts tiles" data-n="9">${ANOS.map(a=>`<button class="opt ${S.ano===a?"sel":""}" data-v="${a}"><span class="l ${ANO_LABEL[a]?"two":""}">${ANO_LABEL[a]||a}</span></button>`).join("")}</div>`; canNext=!!S.ano; break;
     case "style": body=listOpts(STYLE_OPTS,S.style); canNext=!!S.style; break;
     case "fav": body=subjOpts(S.fav); canNext=!!S.fav; break;
     case "hard": body=subjOpts(S.hard,["nenhuma","😎","Nenhuma, tô de boa!"]); canNext=!!S.hard; break;
