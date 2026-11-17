@@ -48,12 +48,12 @@ p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 button:focus-visible,input:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
 img{max-width:100%}
-.btn{font-family:var(--display);font-weight:700;font-size:20px;padding:14px 28px;min-height:56px;border-radius:999px;background:var(--royal);color:var(--ink);border:2px solid var(--royal);transition:transform .1s,background .15s;letter-spacing:-.005em}
+.btn{font-family:var(--display);font-weight:700;font-size:17px;padding:10px 22px;min-height:46px;border-radius:999px;background:var(--royal);color:var(--ink);border:2px solid var(--royal);transition:transform .1s,background .15s;letter-spacing:-.005em}
 .btn:active{transform:scale(.96)}
 .btn[disabled]{background:#DCCDE8;border-color:#DCCDE8;color:#fff;cursor:not-allowed}
 .btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
 .btn.ghost:active{transform:scale(.96)}
-.foot .btn{min-width:min(150px,42vw)}
+.foot .btn{min-width:min(128px,38vw)}
 .skiprow{display:flex;justify-content:center;margin-top:-6px}
 .btn.good{background:var(--ink);border-color:var(--ink)}
 .btn.bad{background:var(--ink);border-color:var(--ink)}
@@ -74,7 +74,7 @@ img{max-width:100%}
 
 /* Personagem + fala. --ph = altura do personagem, --my = altura da boca (fração da imagem).
    A fala é uma "tag" em pílula na cor candy de quem fala, sem setinha, alinhada perto da boca. */
-.talk{--ph:clamp(120px,22vw,200px);--my:.4;display:flex;align-items:flex-start;gap:clamp(12px,2vw,18px)}
+.talk{--ph:clamp(110px,16vw,160px);--my:.4;display:flex;align-items:flex-start;gap:clamp(12px,2vw,18px)}
 .talk .prof{height:var(--ph);width:auto;flex:none}
 .talk .ph{height:var(--ph);width:auto;aspect-ratio:3/4;flex:none}
 .talk .bubble{margin-top:max(10px,calc(var(--ph) * var(--my) - 28px))}
@@ -92,8 +92,8 @@ img{max-width:100%}
 .opt .e{font-size:38px;line-height:1}
 .opt.emoji{font-size:52px;min-height:110px}
 /* tiles: cartões de mesma largura, emoji em cima, respiro igual dos lados; última linha centralizada */
-.tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;--cols:2}
-.tiles>.opt{flex:0 0 calc((100% - (var(--cols) - 1) * 14px) / var(--cols));box-sizing:border-box;min-width:0;flex-direction:column;gap:8px;padding:18px 16px;min-height:124px;font-size:clamp(17px,2.2vw,21px)}
+.tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;--cols:2}
+.tiles>.opt{flex:0 0 calc((100% - (var(--cols) - 1) * 12px) / var(--cols));box-sizing:border-box;min-width:0;flex-direction:column;gap:6px;padding:14px 12px;min-height:100px;font-size:clamp(16px,2vw,19px)}
 .opt .l{max-width:100%;overflow-wrap:break-word;hyphens:auto}
 .tiles[data-n="3"],.tiles[data-n="9"]{--cols:3}
 .tiles[data-n="3"]>.opt{padding:16px 10px}
@@ -156,8 +156,8 @@ img{max-width:100%}
 @media (min-width:1000px){.avs{--cols:6}}
 /* avatares soltos, sem caixa: sombra no chão + nome em etiqueta; selecionado = chão roxo + etiqueta roxa */
 .av{position:relative;padding:4px 0;display:flex;flex-direction:column;align-items:center;gap:4px;font-family:var(--display);font-size:clamp(15px,4vw,19px);font-weight:700;color:var(--ink)}
-.av::before{content:"";position:absolute;left:18%;right:18%;top:calc(4px + clamp(92px,28vw,140px) - 14px);height:16px;border-radius:50%;background:rgba(43,35,80,.12);transition:background .2s}
-.av img{position:relative;height:clamp(92px,28vw,140px);width:auto;object-fit:contain;transition:transform .2s}
+.av::before{content:"";position:absolute;left:18%;right:18%;top:calc(4px + clamp(84px,24vw,120px) - 14px);height:16px;border-radius:50%;background:rgba(43,35,80,.12);transition:background .2s}
+.av img{position:relative;height:clamp(84px,24vw,120px);width:auto;object-fit:contain;transition:transform .2s}
 .av .nm{padding:3px 12px;border-radius:999px;line-height:1.3}
 .av:hover img{transform:translateY(-3px)}
 .av.sel::before{background:var(--ink);opacity:.22}
@@ -174,7 +174,7 @@ img{max-width:100%}
 .top .nm{flex:1;min-width:0;font-family:var(--display);font-weight:700;font-size:21px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top .nm small{display:block;font-family:var(--body);font-size:13px;color:var(--muted)}
 .pill{background:var(--butter);border-radius:999px;padding:8px 14px;font-family:var(--display);font-weight:700;font-size:19px;font-variant-numeric:tabular-nums;white-space:nowrap}
-.top .btn{font-size:17px;padding:8px 16px;min-height:48px}
+.top .btn{font-size:15px;padding:6px 14px;min-height:40px}
 .top .snd{background:var(--soft)}
 
 /* map */
@@ -245,6 +245,7 @@ img{max-width:100%}
 .btn .ic,.chip .ic,.tg .ic,.pill .ic,.legend .ic,h3 .ic,h2 .ic,.play .ic{margin-top:-3px}
 .btn .chev,.btn .chev *,.play .chev *{stroke:currentColor}
 .opt .e{line-height:0}
+.opt .e .ic{width:44px;height:44px}
 .legend{color:var(--muted);display:flex;gap:6px 10px;flex-wrap:wrap;align-items:center}
 .lv .art .badge{width:84px;height:84px;border-radius:50%;background:#fff;display:grid;place-items:center;align-self:center}
 .stars{display:inline-flex;gap:2px}
@@ -268,12 +269,12 @@ img{max-width:100%}
 .tagline{font-size:clamp(22px,4.4vw,34px);color:var(--ink);max-width:18ch;text-align:left}
 /* tela inicial: balão em cima, Lápis centralizado embaixo */
 .pencil-talk{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:640px}
-.pencil-big{height:clamp(190px,min(38vh,56vw),320px);width:auto;flex:none;filter:drop-shadow(0 10px 8px rgba(43,35,80,.18));animation:bob 3s ease-in-out infinite;transform-origin:50% 90%}
+.pencil-big{height:clamp(150px,min(30vh,44vw),240px);width:auto;flex:none;filter:drop-shadow(0 10px 8px rgba(43,35,80,.18));animation:bob 3s ease-in-out infinite;transform-origin:50% 90%}
 .pencil-talk .bubble{margin:0;padding:clamp(16px,3vw,26px) clamp(20px,3.6vw,32px);animation-delay:.2s}
 .pencil-talk .tagline{text-align:center;max-width:20ch}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:560px){
-  .talk{--ph:clamp(140px,40vw,170px)}
+  .talk{--ph:clamp(104px,28vw,128px)}
   .ph{width:110px}
   .bubble{font-size:17px;padding:12px 18px}
   .room .me{height:190px}
@@ -750,7 +751,7 @@ function Intro(){
     :`${hi} Vamos aprender ${met?sj.name+" ":""}juntos?`;
   if(!met){S.met=[...(S.met||[]),id];save()}
   app.innerHTML=`<div class="center fill">
-    <div style="display:grid;place-items:center">${sj.prof.img?`<img src="${sj.prof.img}" alt="${esc(sj.prof.name)}" style="height:min(300px,40vh);animation:bob 3s ease-in-out infinite">`:`<div class="ph" style="background:${sj.color};width:180px;font-size:80px">${ic(id,96)}<small>professor em breve</small></div>`}</div>
+    <div style="display:grid;place-items:center">${sj.prof.img?`<img src="${sj.prof.img}" alt="${esc(sj.prof.name)}" style="height:min(230px,32vh);animation:bob 3s ease-in-out infinite">`:`<div class="ph" style="background:${sj.color};width:180px;font-size:80px">${ic(id,96)}<small>professor em breve</small></div>`}</div>
     <div class="bubble tail-up" style="margin:4px 0 0;--wc:${sj.color}"><button class="say" data-say="${esc(msg)}" aria-label="Ouvir">🔊</button><span class="tx">${esc(msg)}</span></div>
     <button class="btn" id="go">Vamos! ${NX}</button></div>`;
   setTimeout(()=>speak([[msg,"pt-BR"]]),300);
