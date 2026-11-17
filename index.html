@@ -157,6 +157,7 @@ img{max-width:100%}
 #app{position:relative}
 .corner{position:absolute;top:16px;right:max(16px,env(safe-area-inset-right,0px));z-index:5}
 .x{width:48px;height:48px;border-radius:50%;background:#fff;font-size:22px;flex:none;color:var(--ink)}
+.qbody{display:contents}
 .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 
 /* avatar picker */
@@ -697,12 +698,22 @@ function Quiz(){
       canNext=true; break;
   }
   const pct=Math.round(qi/st.length*100);
-  app.innerHTML=`<div class="qhead"><div class="bar" style="--p:${pct}%"><i></i></div>${soundBtn()}</div>
+  const nextLabel=qi===st.length-1?"Pronto!":"Continuar "+NX;
+  // Escolher uma opção não redesenha a tela inteira: só as opções, a barra e o botão Continuar.
+  // Assim a cabeça e o balão do professor ficam parados (antes eles "piscavam" e o balão mudava de formato).
+  const qb=app.querySelector(".qbody");
+  if(qb&&qb.dataset.step===s.id){
+    qb.innerHTML=body;
+    const nb=$("#next");nb.disabled=!canNext;nb.innerHTML=nextLabel;
+    const bar=app.querySelector(".qhead .bar");if(bar)bar.style.setProperty("--p",pct+"%");
+  }else{
+    app.innerHTML=`<div class="qhead"><div class="bar" style="--p:${pct}%"><i></i></div>${soundBtn()}</div>
     ${talk(s.prof,text,SUBJ[s.prof].prof.name)}
-    ${body}
-    <div class="foot"><button class="btn ghost" data-back>${PV} Voltar</button><button class="btn" id="next" ${canNext?"":"disabled"}>${qi===st.length-1?"Pronto!":"Continuar "+NX}</button></div>
+    <div class="qbody" data-step="${s.id}">${body}</div>
+    <div class="foot"><button class="btn ghost" data-back>${PV} Voltar</button><button class="btn" id="next" ${canNext?"":"disabled"}>${nextLabel}</button></div>
     ${s.id==="pais"||s.id==="school"?`<div class="skiprow"><button class="link" id="skip">Pular esta pergunta</button></div>`:""}`;
-  if(faixa()==="p"||qi===0)setTimeout(()=>speak([[text,"pt-BR"]]),250);
+    if(faixa()==="p"||qi===0)setTimeout(()=>speak([[text,"pt-BR"]]),250);
+  }
   app.querySelectorAll(".opt[data-v]").forEach(b=>b.onclick=()=>{
     const v=b.dataset.v;
     if(s.id==="age"){S.age=+v}
