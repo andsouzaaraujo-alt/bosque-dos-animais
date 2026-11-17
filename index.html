@@ -152,9 +152,13 @@ img{max-width:100%}
 
 /* quiz chrome */
 .qhead{display:flex;align-items:center;gap:12px}
-.bar{flex:1;height:18px;background:#fff;border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
-/* arco-íris ocupa a barra inteira; o progresso revela as cores da esquerda para a direita */
-.bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#FF4D6D,#FF9F1C 20%,#FFD23F 40%,#4CC96B 60%,#3A9BFF 80%,#8E3BD6);clip-path:inset(0 calc(100% - var(--p,0%)) 0 0 round 999px);transition:clip-path .4s}
+.bar{flex:1;height:20px;position:relative;background:#fff;border-radius:999px;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
+/* Barra = corpinho do Lápis-unicórnio: listras finas e inclinadas nas cores dele
+   (vermelho, laranja, amarelo, verde, azul, roxo). O progresso revela a barra da esquerda para a direita. */
+.bar i{display:block;height:100%;width:100%;
+  background:repeating-linear-gradient(115deg,#E62318 0 7px,#FC6E02 7px 14px,#FCC405 14px 21px,#76B60A 21px 28px,#0E98E0 28px 35px,#8B2DCC 35px 42px);
+  box-shadow:inset 0 5px 0 rgba(255,255,255,.28),inset 0 -4px 0 rgba(0,0,0,.10);
+  clip-path:inset(0 calc(100% - var(--p,0%)) 0 0 round 999px);transition:clip-path .4s}
 .snd{width:48px;height:48px;border-radius:50%;background:#fff;font-size:22px;box-shadow:0 4px 0 var(--line);flex:none;display:grid;place-items:center}
 .snd:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
 #app{position:relative}
@@ -601,7 +605,7 @@ function Quiz(){
       canNext=true; break;
   }
   const pct=Math.round(qi/st.length*100);
-  app.innerHTML=`<div class="qhead"><div class="bar"><i style="--p:${pct}%"></i></div>${soundBtn()}</div>
+  app.innerHTML=`<div class="qhead"><div class="bar" style="--p:${pct}%"><i></i></div>${soundBtn()}</div>
     ${talk(s.prof,text,SUBJ[s.prof].prof.name)}
     ${body}
     <div class="foot"><button class="btn ghost" data-back>◀ Voltar</button><button class="btn" id="next" ${canNext?"":"disabled"}>${qi===st.length-1?"Pronto! 🎉":"Continuar ▶"}</button></div>
@@ -695,7 +699,7 @@ function Lesson(){
   const pct=L.mode==="main"?Math.round(L.done/L.total*100):Math.round(L.sdone/L.sq.length*100);
   if(!it.order)it.order=shuffle(opts);
   const emo=it.order.every(o=>isEmoji(o));
-  app.innerHTML=`<div class="qhead"><button class="x" id="quit" aria-label="Sair">✕</button><div class="bar"><i style="--p:${pct}%"></i></div>${soundBtn()}${L.mode==="surprise"?`<span class="pill">🎁</span>`:""}</div>
+  app.innerHTML=`<div class="qhead"><button class="x" id="quit" aria-label="Sair">✕</button><div class="bar" style="--p:${pct}%"><i></i></div>${soundBtn()}${L.mode==="surprise"?`<span class="pill">🎁</span>`:""}</div>
     <div class="qcard">
       <div class="talk" style="${talkVars(id)}">${profArt(id)}<div class="bubble"><button class="say" id="sayq" aria-label="Ouvir">🔊</button><span class="tx">${esc(text)}</span></div></div>
       ${visual?`<div class="visual" aria-hidden="true">${visual}</div>`:""}
