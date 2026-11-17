@@ -16,7 +16,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap">
 <style>
 /* Layout: uma coluna sobre fundo lilás chapado; cartões brancos e cores candy (lima, menta, rosa, lavanda, manteiga) como blocos chapados. Um mundo claro só. */
 :root{
@@ -30,19 +30,20 @@
   --purple:var(--royal); --purple-d:var(--royal-d); --yellow:var(--butter);
   --good:#1F8F55; --good-bg:#C9F5DB; --bad:#C2482D; --bad-bg:#FFD6CB;
   --mat:var(--pink); --ing:var(--lime); --cie:var(--mint); --his:var(--butter); --art:var(--peri);
-  /* Fredoka: títulos e botões, arredondada como as letras da placa. Nunito: textos, pontas arredondadas e boa leitura no celular. Pesos leves (500/600) para não ficar "pesado". */
-  --display:"Fredoka", "Arial Rounded MT Bold", "Trebuchet MS", system-ui, sans-serif;
-  --body:"Nunito", "Segoe UI", system-ui, sans-serif;
+  /* Bricolage Grotesque: títulos e botões, grotesca forte como na referência.
+     Plus Jakarta Sans: textos, limpa e fácil de ler no celular. */
+  --display:"Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --body:"Plus Jakarta Sans", "Segoe UI", system-ui, sans-serif;
   --r:22px;
 }
 [hidden]{display:none!important}
 html,body{height:100%}
 body{margin:0;color:var(--ink);font-family:var(--body);font-weight:500;font-size:17px;-webkit-tap-highlight-color:transparent;overflow-x:hidden;background:var(--bg)}
 #app{max-width:980px;margin:0 auto;min-height:100%;box-sizing:border-box;padding-block:16px 120px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:18px}
-h1,h2,h3{font-family:var(--display);margin:0;line-height:1.05;text-wrap:balance}
-h1{font-size:clamp(40px,8vw,72px);font-weight:600;color:var(--purple)}
-h2{font-size:clamp(26px,4.5vw,38px);font-weight:600}
-h3{font-size:22px;font-weight:600}
+h1,h2,h3{font-family:var(--display);margin:0;line-height:1.05;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(40px,8vw,72px);font-weight:800;color:var(--ink)}
+h2{font-size:clamp(26px,4.5vw,38px);font-weight:800}
+h3{font-size:22px;font-weight:700}
 p{margin:0}
 button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
 button:focus-visible,input:focus-visible{outline:4px solid var(--yellow);outline-offset:3px}
