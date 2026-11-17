@@ -82,12 +82,12 @@ img{max-width:100%}
 /* professor + bubble */
 /* Personagem + balão. --ph = altura do personagem, --my = altura da boca (fração da imagem).
    O balão desce até a pontinha ficar na altura da boca. */
-.talk{--ph:clamp(120px,22vw,200px);--my:.4;display:flex;align-items:flex-start;gap:8px}
+.talk{--ph:clamp(120px,22vw,200px);--my:.4;display:flex;align-items:flex-start;gap:clamp(20px,3vw,28px)} /* espaço entre o personagem e a pontinha do balão */
 .talk .prof{height:var(--ph);width:auto;flex:none;filter:drop-shadow(0 6px 5px rgba(43,35,80,.15))}
 .talk .ph{height:var(--ph);width:auto;aspect-ratio:3/4;flex:none}
 .talk .bubble{margin-top:max(14px,calc(var(--ph) * var(--my) - 32px))}
 /* Balão de pelúcia: borda lilás, "chão" embaixo, etiqueta com o nome de quem fala */
-.bubble{--bc:#CDB8F5;position:relative;background:#fff;border:3px solid var(--bc);border-radius:28px;padding:18px 22px 16px;box-shadow:0 6px 0 #E6DCFB,inset 0 -5px 0 #F7F3FF;font-family:var(--body);font-weight:600;font-size:clamp(19px,2.5vw,24px);line-height:1.28;color:var(--ink);flex:0 1 auto;width:fit-content;max-width:min(560px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .45s cubic-bezier(.3,1.6,.5,1) backwards;transform-origin:0 30px}
+.bubble{--bc:#CDB8F5;position:relative;background:#fff;border:3px solid var(--bc);border-radius:28px;padding:16px 20px 14px;box-shadow:0 5px 0 #E6DCFB,inset 0 -4px 0 #F7F3FF;font-family:var(--body);font-weight:600;font-size:clamp(17px,2vw,21px);line-height:1.32;color:var(--ink);flex:0 1 auto;width:fit-content;max-width:min(440px,100%);min-width:0;box-sizing:border-box;animation:bubbleIn .45s cubic-bezier(.3,1.6,.5,1) backwards;transform-origin:0 30px}
 .bubble::before{content:"";position:absolute;width:18px;height:18px;background:#fff;border:3px solid var(--bc);border-top:0;border-right:0;border-radius:0 0 0 6px;left:-12px;top:20px;transform:rotate(45deg)}
 .bubble.tail-down{transform-origin:50% 100%}
 .bubble.tail-down::before{left:50%;top:auto;bottom:-12px;transform:translateX(-50%) rotate(-45deg)}
@@ -271,7 +271,7 @@ img{max-width:100%}
 @media (max-width:560px){
   .talk{--ph:clamp(140px,40vw,170px)}
   .ph{width:110px}
-  .bubble{font-size:19px}
+  .bubble{font-size:17px;padding:14px 16px 12px}
   .room .me{height:190px}
   .room .shelf{left:20px;top:130px;justify-content:center}
 }
