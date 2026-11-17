@@ -138,14 +138,17 @@ img{max-width:100%}
 
 /* quiz chrome */
 .qhead{display:flex;align-items:center;gap:12px}
-.bar{flex:1;height:20px;background:#fff;border-radius:999px;overflow:hidden;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
-/* listrinhas inclinadas de arco-íris que andam devagar; o progresso revela a barra da esquerda para a direita */
+.bar{flex:1;height:20px;position:relative;background:#fff;border-radius:999px;box-shadow:inset 0 2px 0 rgba(0,0,0,.06)}
+/* Barra = corpinho do Lápis-unicórnio: listras largas e inclinadas nas cores dele
+   (vermelho, laranja, amarelo, verde, azul, roxo). O progresso revela a barra da esquerda para a direita. */
 .bar i{display:block;height:100%;width:100%;
-  background:repeating-linear-gradient(-45deg,#FF4D6D 0 10px,#FF9F1C 10px 20px,#FFD23F 20px 30px,#4CC96B 30px 40px,#3A9BFF 40px 50px,#8E3BD6 50px 60px);
-  box-shadow:inset 0 4px 0 rgba(255,255,255,.35),inset 0 -3px 0 rgba(0,0,0,.08);
-  clip-path:inset(0 calc(100% - var(--p,0%)) 0 0 round 999px);transition:clip-path .4s;
-  animation:stripes 2.4s linear infinite}
-@keyframes stripes{to{background-position:84.85px 0}} /* 60px de listras ÷ cos 45° = 84,85px: o desenho se repete sem pulo */
+  background:repeating-linear-gradient(115deg,#E62318 0 7px,#FC6E02 7px 14px,#FCC405 14px 21px,#76B60A 21px 28px,#0E98E0 28px 35px,#8B2DCC 35px 42px);
+  box-shadow:inset 0 5px 0 rgba(255,255,255,.28),inset 0 -4px 0 rgba(0,0,0,.10);
+  clip-path:inset(0 calc(100% - var(--p,0%)) 0 0 round 999px);transition:clip-path .4s}
+/* brilhinho que vai na ponta da barra, acompanhando o progresso */
+.bar .spark{position:absolute;top:50%;left:var(--p,0%);transform:translate(-55%,-55%);font-size:24px;line-height:1;pointer-events:none;
+  transition:left .4s;filter:drop-shadow(0 1px 1px rgba(43,35,80,.25));animation:twinkle 1.6s ease-in-out infinite}
+@keyframes twinkle{50%{transform:translate(-55%,-55%) scale(1.25) rotate(12deg)}}
 .x{width:48px;height:48px;border-radius:50%;background:#fff;font-size:22px;box-shadow:0 4px 0 var(--line);flex:none}
 .foot{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
 
@@ -553,7 +556,7 @@ function Quiz(){
       canNext=true; break;
   }
   const pct=Math.round(qi/st.length*100);
-  app.innerHTML=`<div class="qhead"><button class="x" data-back aria-label="Voltar">←</button><div class="bar"><i style="--p:${pct}%"></i></div></div>
+  app.innerHTML=`<div class="qhead"><button class="x" data-back aria-label="Voltar">←</button><div class="bar" style="--p:${pct}%"><i></i><b class="spark" aria-hidden="true">✨</b></div></div>
     ${talk(s.prof,text,SUBJ[s.prof].prof.name)}
     ${body}
     <div class="foot"><span>${s.id==="pais"||s.id==="school"?`<button class="link" id="skip">Pular</button>`:""}</span><button class="btn" id="next" ${canNext?"":"disabled"}>${qi===st.length-1?"Pronto! 🎉":"Continuar ▶"}</button></div>`;
@@ -643,7 +646,7 @@ function Lesson(){
   const pct=L.mode==="main"?Math.round(L.done/L.total*100):Math.round(L.sdone/L.sq.length*100);
   if(!it.order)it.order=shuffle(opts);
   const emo=it.order.every(o=>isEmoji(o));
-  app.innerHTML=`<div class="qhead"><button class="x" id="quit" aria-label="Sair">✕</button><div class="bar"><i style="--p:${pct}%"></i></div>${L.mode==="surprise"?`<span class="pill">🎁</span>`:""}</div>
+  app.innerHTML=`<div class="qhead"><button class="x" id="quit" aria-label="Sair">✕</button><div class="bar" style="--p:${pct}%"><i></i><b class="spark" aria-hidden="true">✨</b></div>${L.mode==="surprise"?`<span class="pill">🎁</span>`:""}</div>
     <div class="qcard">
       <div class="talk">${profArt(id)}<div class="bubble"><button class="say" id="sayq" aria-label="Ouvir">🔊</button><span class="who">${esc(sj.prof.name)} · ${sj.name}</span>${esc(text)}</div></div>
       ${visual?`<div class="visual" aria-hidden="true">${visual}</div>`:""}
