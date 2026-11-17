@@ -61,7 +61,10 @@ img{max-width:100%}
 .btn{font-family:var(--display);font-weight:600;font-size:22px;padding:14px 28px;min-height:60px;border-radius:999px;background:var(--purple);color:#fff;box-shadow:0 6px 0 var(--purple-d);transition:transform .08s,box-shadow .08s;letter-spacing:.3px}
 .btn:active{transform:translateY(5px);box-shadow:0 1px 0 var(--purple-d)}
 .btn[disabled]{background:#CFC8E4;box-shadow:0 6px 0 #B3AACF;cursor:not-allowed}
-.btn.ghost{background:#fff;color:var(--purple);box-shadow:0 6px 0 var(--line)}
+.btn.ghost{background:#fff;color:var(--purple);box-shadow:0 6px 0 #D9CCF7;outline:3px solid #CDB8F5;outline-offset:-3px}
+.btn.ghost:active{box-shadow:0 1px 0 #D9CCF7}
+.foot .btn{min-width:min(150px,42vw)}
+.skiprow{display:flex;justify-content:center;margin-top:-6px}
 .btn.good{background:var(--good);box-shadow:0 6px 0 #1E8A4F}
 .btn.bad{background:var(--bad);box-shadow:0 6px 0 #C23038}
 .link{font-weight:600;color:var(--muted);text-decoration:underline;padding:10px}
@@ -539,7 +542,7 @@ function Avatar(){
   app.innerHTML=`${talk("mat","Primeiro, escolha quem você quer ser!","Duda")}
   <div class="avs">${AVATARS.map(a=>`<button class="av ${pickAv===a.id?"sel":""}" data-av="${a.id}"><img src="${a.img}" alt=""><span class="nm">${a.name}</span></button>`).join("")}</div>
   <div class="field"><label for="nome">Qual é o seu nome? <span style="color:var(--muted)">(um adulto pode ajudar)</span></label>${writeBox(`<input id="nome" maxlength="20" autocomplete="off" value="${esc(S.name)}" placeholder="Seu nome">`,true)}</div>
-  <div class="foot"><button class="link" data-go="start">← Voltar</button><button class="btn" id="avok" ${pickAv?"":"disabled"}>Continuar ▶</button></div>`;
+  <div class="foot"><button class="btn ghost" data-go="start">◀ Voltar</button><button class="btn" id="avok" ${pickAv?"":"disabled"}>Continuar ▶</button></div>`;
   app.querySelectorAll("[data-av]").forEach(b=>b.onclick=()=>{pickAv=b.dataset.av;const a=AVATARS.find(x=>x.id===pickAv);speak([[a.name,"pt-BR"]]);app.querySelectorAll(".av").forEach(x=>x.classList.toggle("sel",x===b));$("#avok").disabled=false});
   $("#avok").onclick=()=>{
     const keep=S.quizDone&&false;
@@ -596,10 +599,11 @@ function Quiz(){
       canNext=true; break;
   }
   const pct=Math.round(qi/st.length*100);
-  app.innerHTML=`<div class="qhead"><button class="x" data-back aria-label="Voltar">←</button><div class="bar"><i style="--p:${pct}%"></i></div>${soundBtn()}</div>
+  app.innerHTML=`<div class="qhead"><div class="bar"><i style="--p:${pct}%"></i></div>${soundBtn()}</div>
     ${talk(s.prof,text,SUBJ[s.prof].prof.name)}
     ${body}
-    <div class="foot"><span>${s.id==="pais"||s.id==="school"?`<button class="link" id="skip">Pular</button>`:""}</span><button class="btn" id="next" ${canNext?"":"disabled"}>${qi===st.length-1?"Pronto! 🎉":"Continuar ▶"}</button></div>`;
+    <div class="foot"><button class="btn ghost" data-back>◀ Voltar</button><button class="btn" id="next" ${canNext?"":"disabled"}>${qi===st.length-1?"Pronto! 🎉":"Continuar ▶"}</button></div>
+    ${s.id==="pais"||s.id==="school"?`<div class="skiprow"><button class="link" id="skip">Pular esta pergunta</button></div>`:""}`;
   if(faixa()==="p"||qi===0)setTimeout(()=>speak([[text,"pt-BR"]]),250);
   app.querySelectorAll(".opt[data-v]").forEach(b=>b.onclick=()=>{
     const v=b.dataset.v;
